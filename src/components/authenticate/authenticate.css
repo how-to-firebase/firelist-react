@@ -1,0 +1,8 @@
+.wrapper {
+  display: flex;
+  height: 50vh;
+  background: gold;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+}
