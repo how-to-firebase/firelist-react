@@ -9,7 +9,11 @@ const defaultState = {
   currentUser,
   drawerOpen: false,
 };
-const store = devtools(createStore(defaultState));
+let store = createStore(defaultState);
+
+if (true) {
+  store = devtools(store);
+}
 const actions = store => rawActions;
 
 const connectedActions = {};
@@ -21,7 +25,5 @@ store.subscribe(() => {
   // console.log('state', store.getState());
   window.state = store.getState();
 });
-
-history.listen(args => console.log('args', args));
 
 export { actions, connectedActions, store };
