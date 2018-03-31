@@ -1,3 +1,4 @@
+/* globals firebase */
 import React from 'react';
 import {
   Toolbar,
@@ -9,20 +10,35 @@ import {
 } from 'rmwc/Toolbar';
 import { connect } from 'unistore/react';
 import { actions } from '../../store';
+import { Exit } from '../../svg';
 
-export default connect('currentUser', actions)(({ currentUser }) => {
-  return (
-    <Toolbar>
-      <ToolbarRow>
-        <ToolbarSection alignStart>
-          <ToolbarMenuIcon use="menu" />
-          <ToolbarTitle>Toolbar</ToolbarTitle>
-        </ToolbarSection>
-        <ToolbarSection alignEnd>
-          <ToolbarIcon use="save" />
-          <ToolbarIcon use="print" />
-        </ToolbarSection>
-      </ToolbarRow>
-    </Toolbar>
-  );
-});
+export default connect('currentUser,drawerOpen', actions)(
+  ({ currentUser, drawerOpen, setDrawerOpen }) => {
+    return (
+      <Toolbar>
+        <ToolbarRow>
+          <ToolbarSection alignStart>
+            {currentUser && (
+              <ToolbarMenuIcon
+                use="menu"
+                onClick={() => setDrawerOpen(!drawerOpen)}
+              />
+            )}
+            <ToolbarTitle>Toolbar</ToolbarTitle>
+          </ToolbarSection>
+          <ToolbarSection alignEnd>
+            {currentUser && (
+              <ToolbarIcon onClick={signOut}>
+                <Exit />
+              </ToolbarIcon>
+            )}
+          </ToolbarSection>
+        </ToolbarRow>
+      </Toolbar>
+    );
+  }
+);
+
+function signOut() {
+  firebase.auth().signOut();
+}

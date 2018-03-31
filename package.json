@@ -1,7 +1,7 @@
 {
-  "name": "new",
+  "name": "react-firebase-starter",
   "version": "1.0.0",
-  "description": "",
+  "description": "I'm sick of configuring new projects.",
   "keywords": [],
   "homepage": "https://codesandbox.io/s/new",
   "main": "src/index.js",

@@ -1,18 +1,39 @@
+/* globals firebase */
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'unistore/react';
-import { store } from './store';
+import { Provider, connect } from 'unistore/react';
+import { BrowserRouter as Router, withRouter } from 'react-router-dom';
+import { connectedActions, store, actions } from './store';
 import Routes from './routes';
-import { Toolbar } from './components';
+import { Drawer, Toolbar } from './components';
 
-const App = () => (
-  <Provider store={store}>
-    <div>
-      <Toolbar />
-      <Routes />
-    </div>
-  </Provider>
+let unlisten;
+const InnerApp = withRouter(
+  connect('', actions)(({ history, setLocation }) => {
+    if (typeof unlisten === 'function') {
+      unlisten();
+    }
+    unlisten = history.listen(setLocation);
+
+    return (
+      <div>
+        <Drawer />
+        <Toolbar />
+        <Routes />
+      </div>
+    );
+  })
 );
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <InnerApp />
+      </Router>
+    </Provider>
+  );
+}
 
 var config = {
   apiKey: 'AIzaSyCS1pnoOtPF_LPRqqOpBFKef42-lk3fKxw',
@@ -23,8 +44,10 @@ var config = {
   messagingSenderId: '1030752103417',
 };
 
-if (!window.firebase.apps.length) {
-  window.firebase.initializeApp(config);
+if (firebase && !firebase.apps.length) {
+  firebase.initializeApp(config);
+
+  firebase.auth().onAuthStateChanged(connectedActions.setCurrentUser);
 }
 
 render(<App />, document.getElementById('root'));
