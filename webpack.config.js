@@ -40,14 +40,12 @@ module.exports = {
       filename: './index.html',
     }),
   ],
-  
+
   devtool: 'source-maps',
 
   devServer: {
     historyApiFallback: true,
     host: '0.0.0.0',
-    allowedHosts: [
-        'dev.chrisesplin.com'
-    ]
-  }
+    allowedHosts: ['dev.chrisesplin.com', 'localhost'],
+  },
 };
