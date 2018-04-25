@@ -8,14 +8,7 @@ import { Button } from 'rmwc/Button';
 
 import { ListItem, ListItemText } from 'rmwc/List';
 
-const css = {
-  active: {
-    cursor: 'default',
-  },
-  fullWidth: {
-    width: '100%',
-  },
-};
+import css from "./drawer.css";
 
 export default connect('drawerOpen,location', actions)(
   ({ drawerOpen, location, setDrawerOpen }) => {
@@ -37,9 +30,9 @@ function getListItems({ pathname } = { path: null }) {
     const isActive = pathname === path;
     return (
       <ListItem disabled={isActive} key={path}>
-        <ListItemText style={css.fullWidth}>
-          <NavLink exact to={path} disabled={isActive} activeStyle={css.active}>
-            <Button style={css.fullWidth} disabled={isActive}>
+        <ListItemText className={css.fullWidth}>
+          <NavLink exact to={path} disabled={isActive} activeClassName={css.active}>
+            <Button className={css.fullWidth} disabled={isActive}>
               {text}
             </Button>
           </NavLink>
