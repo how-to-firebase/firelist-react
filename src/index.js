@@ -5,7 +5,7 @@ import { Provider, connect } from 'unistore/react';
 import { BrowserRouter as Router, withRouter } from 'react-router-dom';
 import { connectedActions, store, actions } from './store';
 import Routes from './routes';
-import { Drawer, Toolbar } from './components';
+import { Drawer, Messaging, Toolbar } from './components';
 
 let unlisten;
 const InnerApp = withRouter(
@@ -17,6 +17,7 @@ const InnerApp = withRouter(
 
     return (
       <div>
+        <Messaging />
         <Drawer />
         <Toolbar />
         <Routes />
@@ -27,27 +28,16 @@ const InnerApp = withRouter(
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router>
-        <InnerApp />
-      </Router>
-    </Provider>
+    <div>
+      <Provider store={store}>
+        <Router>
+          <InnerApp />
+        </Router>
+      </Provider>
+    </div>
   );
 }
 
-var config = {
-  apiKey: 'AIzaSyCS1pnoOtPF_LPRqqOpBFKef42-lk3fKxw',
-  authDomain: 'how-to-firebase-tutorials.firebaseapp.com',
-  databaseURL: 'https://how-to-firebase-tutorials.firebaseio.com',
-  projectId: 'how-to-firebase-tutorials',
-  storageBucket: 'how-to-firebase-tutorials.appspot.com',
-  messagingSenderId: '1030752103417',
-};
-
-if (firebase && !firebase.apps.length) {
-  firebase.initializeApp(config);
-
-  firebase.auth().onAuthStateChanged(connectedActions.setCurrentUser);
-}
+firebase.auth().onAuthStateChanged(connectedActions.setCurrentUser);
 
 render(<App />, document.getElementById('root'));

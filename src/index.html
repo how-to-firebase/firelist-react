@@ -5,27 +5,35 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="theme-color" content="#000000">
-	
-	<!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"> -->
-	
+
+	<link rel="manifest" href="/manifest.json">
+	<link rel="shortcut icon" href="assets/favicon.ico">
+
 	<title>React App</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" /> 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-  <style>
-	  /* https://material.io/color/ */
-    :root {
-	    --mdc-theme-primary: #00acc1;
-	    --mdc-theme-primary-light: #5ddef4;
-	    --mdc-theme-primary-dark: #007c91;
-	    --mdc-theme-secondary: #d81b60;
-	    --mdc-theme-secondary-light: #ff5c8d;
-	    --mdc-theme-secondary-dark: #a00037;
-	    
-    }
-  </style>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css" rel="stylesheet">
+	<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+	<style>
+		/* https://material.io/color/ */
+
+		:root {
+			--mdc-theme-primary: #00acc1;
+			--mdc-theme-primary-light: #5ddef4;
+			--mdc-theme-primary-dark: #007c91;
+			--mdc-theme-secondary: #d81b60;
+			--mdc-theme-secondary-light: #ff5c8d;
+			--mdc-theme-secondary-dark: #a00037;
+		}
+
+		body {
+			margin: 0;
+		}
+	</style>
+	<script src="environments/environment.js"></script>
+	<script>
+		firebase.initializeApp(environment.firebase);
+	</script>
 </head>
 
 <body>
@@ -33,16 +41,6 @@
 		You need to enable JavaScript to run this app.
 	</noscript>
 	<div id="root" class="mdc-typography"></div>
-	<!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
 </body>
 
 </html>

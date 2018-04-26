@@ -1,0 +1,27 @@
+{
+  "short_name": "FirebaseReact",
+  "name": "Start your Firebase + React app here",
+  "icons": [
+    {
+      "src": "assets/bolt-48px.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/bolt-96px.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/bolt-144px.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#00acc1",
+  "background_color": "#5ddef4",
+  "orientation": "portrait",
+  "gcm_sender_id": "103953800507"
+}
