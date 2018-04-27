@@ -22,15 +22,19 @@ export default () => {
   );
 };
 
-// See https://firebase.google.com/docs/auth/web/google-signin
+/* 
+  CHALLENGE Authentication
+  - Review Google sign-in docs 
+  - https://firebase.google.com/docs/auth/web/google-signin
+  - Create a new GoogleAuthProvider
+  - Pass that provider into signInWithPopup or signInWithRedirect
+*/
+
+
+// See 
 function signIn() {
-  const googleProvider = getGoogleProvider();
+  const provider = new firebase.auth.GoogleAuthProvider();
 
   // Use the provider to sign in with a popup or a redirect
-  firebase.auth().signInWithPopup(googleProvider);
-}
-
-function getGoogleProvider() {
-  // Return a new Google auth provider
-  return new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider);
 }

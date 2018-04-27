@@ -38,9 +38,18 @@ function App() {
   );
 }
 
-const { setCurrentUser} = connectedActions;
+
+/* 
+  CHALLENGE Authentication
+  - Review onAuthStateChanged docs
+  - https://firebase.google.com/docs/auth/web/manage-users
+  - Register an onAuthStateChanged callback
+  - Call setCurrentUser with the updated currentUser
+*/
+
+
+const { setCurrentUser } = connectedActions;
 firebase.auth().onAuthStateChanged(currentUser => {
-  console.log('currentUser', currentUser);
   setCurrentUser(currentUser);
 });
 
