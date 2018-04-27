@@ -6,8 +6,10 @@ import * as actions from '../../store/actions';
 export class Messaging extends Component {
   constructor(props) {
     super(props);
+    // Let's pull
     this.messaging = firebase.messaging();
   }
+
   componentDidMount() {
     this.unlisten = this.messaging.onTokenRefresh(() => this.getToken());
     this.getToken();
