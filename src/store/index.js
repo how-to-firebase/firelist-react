@@ -5,7 +5,10 @@ import * as rawActions from './actions';
 import * as subscriptions from './subscriptions';
 
 const currentUser =
-  (firebase.apps.length && firebase.auth().currentUser) || null;
+  (typeof firebase != 'undefined' &&
+    firebase.apps.length &&
+    firebase.auth().currentUser) ||
+  null;
 const defaultState = {
   currentUser,
   drawerOpen: false,

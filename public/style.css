@@ -1,3 +1,22 @@
-.active {
+/* MDC button */
+.mdc-list .mdc-button {
+  color: var(--mdc-theme-gray);
+}
+
+/* MDC links */
+.mdc-list a {
+  text-decoration: none;
+}
+
+.mdc-list-item--selected a {
   cursor: default;
+}
+
+/* MDC svg */
+.mdc-list svg {
+  fill: var(--mdc-theme-gray);
+}
+
+.mdc-list-item--selected svg {
+  fill: var(--mdc-theme-primary);
 }

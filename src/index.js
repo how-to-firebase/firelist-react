@@ -46,8 +46,6 @@ function App() {
   - Register an onAuthStateChanged callback
   - Call setCurrentUser with the updated currentUser
 */
-
-
 const { setCurrentUser } = connectedActions;
 firebase.auth().onAuthStateChanged(currentUser => {
   setCurrentUser(currentUser);
