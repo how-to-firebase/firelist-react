@@ -1,7 +1,7 @@
 /* global firebase */
 import React, { Component } from 'react';
 import { connect } from 'unistore/react';
-import { actions } from '../../store';
+import * as actions from '../../store/actions';
 
 export class Messaging extends Component {
   constructor(props) {
@@ -18,15 +18,16 @@ export class Messaging extends Component {
   }
 
   getToken() {
-    console.log('this.props.setMessagingToken', this.props);
-    return this.messaging.getToken().then(this.props.setMessagingToken);
+    return this.messaging.getToken().then(token => {
+      console.log('token', token);
+      console.log('this.props', this.props);
+      this.props.setMessagingToken(token);
+    });
   }
 
   render() {
     return null;
   }
 }
-
-console.log(actions)
 
 export default connect('', actions)(Messaging);

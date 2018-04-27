@@ -4,17 +4,13 @@ import messaging from '../../components/messaging/messaging';
 export default store => {
   let laggedCurrentUser;
   let laggedMessagingToken;
-  return store.subscribe(() => {
+  return store.subscribe(async () => {
     const { currentUser, messagingToken } = store.getState();
+    const now = new Date().toString();
     const updates = {};
 
     if (currentUser && currentUser != laggedCurrentUser) {
-      updates.displayName = currentUser.displayName;
-      updates.email = currentUser.email;
-      updates.emailVerified = currentUser.emailVerified;
-      updates.photoURL = currentUser.photoURL;
-      updates.phoneNumber = currentUser.phoneNumber;
-      updates.uid = currentUser.uid;
+      updates.idToken = await currentUser.getIdToken();
     }
 
     if (
@@ -22,6 +18,7 @@ export default store => {
       messagingToken &&
       messagingToken != laggedMessagingToken
     ) {
+      updates.idToken = await currentUser.getIdToken();
       updates.messagingToken = messagingToken;
     }
 
@@ -29,9 +26,9 @@ export default store => {
     laggedMessagingToken = messagingToken;
 
     if (Object.keys(updates).length) {
-      firebase
+      return firebase
         .database()
-        .ref(`${environment.firebaseRoot}/users/${currentUser.uid}`)
+        .ref(`${environment.firebaseRoot}/userWriteable/userTokens/${currentUser.uid}`)
         .update(updates);
     }
   });
