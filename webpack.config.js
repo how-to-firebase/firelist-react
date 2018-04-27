@@ -46,7 +46,7 @@ module.exports = env => {
 
     plugins: [
       new HtmlWebPackPlugin({
-        template: './src/index.html',
+        template: './public/index.html',
         filename: './index.html',
       }),
     ],
@@ -57,7 +57,7 @@ module.exports = env => {
       historyApiFallback: true,
       host: '0.0.0.0',
       allowedHosts: ['dev.chrisesplin.com', 'localhost'],
-      contentBase: path.resolve('src'),
+      contentBase: path.resolve('public'),
       https: {
         key: fs.readFileSync('/home/chris/.certs/chrisesplin.com/privkey.pem'),
         cert: fs.readFileSync('/home/chris/.certs/chrisesplin.com/cert.pem'),
@@ -66,7 +66,7 @@ module.exports = env => {
       before(app) {
         app.get('/environments/environment.js', (req, res) => {
           const devEnvironment = fs.readFileSync(
-            './src/environments/environment.dev.js',
+            './public/environments/environment.dev.js',
             'utf8'
           );
           res.setHeader('Content-Type', 'application/javascript');
