@@ -1,6 +1,4 @@
 /* globals firebase environment */
-import messaging from '../../components/messaging/messaging';
-
 export default store => {
   let laggedCurrentUser;
   let laggedMessagingToken;

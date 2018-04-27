@@ -38,10 +38,10 @@ function App() {
   );
 }
 
-// TODO AUTHENTICATION
-// See https://firebase.google.com/docs/auth/web/google-signin
-// 1. Create an onAuthStateChanged callback
-// 2. Call setCurrentUser with the currentUser object
-const { setCurrentUser } = connectedActions;
+const { setCurrentUser} = connectedActions;
+firebase.auth().onAuthStateChanged(currentUser => {
+  console.log('currentUser', currentUser);
+  setCurrentUser(currentUser);
+});
 
 render(<App />, document.getElementById('root'));

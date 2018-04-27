@@ -1,7 +1,7 @@
 /* global firebase */
 import React, { Component } from 'react';
 import { connect } from 'unistore/react';
-import * as actions from '../../store/actions';
+import * as actions from '../store/actions';
 
 export class Messaging extends Component {
   constructor(props) {

@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'unistore/react';
 import { NavLink } from 'react-router-dom';
 import { Drawer, DrawerHeader, DrawerContent } from 'rmwc/Drawer';
-import { actions } from '../../store';
+import { actions } from '../store';
 
 import { Button } from 'rmwc/Button';
 
 import { ListItem, ListItemText } from 'rmwc/List';
 
-import css from "./drawer.css";
+const css = {
+  fullWidth: {
+    width: '100%',
+  },
+};
 
 export default connect('drawerOpen,location', actions)(
   ({ drawerOpen, location, setDrawerOpen }) => {
@@ -30,8 +34,13 @@ function getListItems({ pathname } = { path: null }) {
     const isActive = pathname === path;
     return (
       <ListItem disabled={isActive} key={path}>
-        <ListItemText className={css.fullWidth}>
-          <NavLink exact to={path} disabled={isActive} activeClassName={css.active}>
+        <ListItemText style={css.fullWidth}>
+          <NavLink
+            exact
+            to={path}
+            disabled={isActive}
+            activeClassName='active'
+          >
             <Button className={css.fullWidth} disabled={isActive}>
               {text}
             </Button>
