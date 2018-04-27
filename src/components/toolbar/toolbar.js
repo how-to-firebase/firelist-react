@@ -10,7 +10,8 @@ import {
 } from 'rmwc/Toolbar';
 import { connect } from 'unistore/react';
 import { actions } from '../../store';
-import { Exit } from '../../svg';
+import { Bolt, Exit } from '../../svg';
+import css from "./toolbar.css";
 
 export default connect('currentUser,drawerOpen', actions)(
   ({ currentUser, drawerOpen, setDrawerOpen }) => {
@@ -24,7 +25,10 @@ export default connect('currentUser,drawerOpen', actions)(
                 onClick={() => setDrawerOpen(!drawerOpen)}
               />
             )}
-            <ToolbarTitle>Toolbar</ToolbarTitle>
+            <ToolbarTitle>
+              Firelist
+              <Bolt className={css.icon} />
+            </ToolbarTitle>
           </ToolbarSection>
           <ToolbarSection alignEnd>
             {currentUser && (
