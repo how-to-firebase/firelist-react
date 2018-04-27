@@ -21,8 +21,6 @@ export class Messaging extends Component {
 
   getToken() {
     return this.messaging.getToken().then(token => {
-      console.log('token', token);
-      console.log('this.props', this.props);
       this.props.setMessagingToken(token);
     });
   }
