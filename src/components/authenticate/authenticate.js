@@ -13,15 +13,11 @@ export default () => {
   );
 };
 
+// TODO AUTHENTICATION
 // See https://firebase.google.com/docs/auth/web/google-signin
 function signIn() {
-  const googleProvider = getGoogleProvider();
-
-  // Use the provider to sign in with a popup or a redirect
-  firebase.auth().signInWithPopup(googleProvider);
-}
-
-function getGoogleProvider() {
-  // Return a new Google auth provider  
-  return  new firebase.auth.GoogleAuthProvider();
+  // 1. Create a new Google provider
+  // 2. Add any scopes that you may want
+  // 3. Sign in with the provider using a popup or a redirect  
+  
 }
