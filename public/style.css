@@ -1,8 +1,4 @@
 /* Global */
-body {
-  color: var(--colors-text);
-}
-
 ::selection {
   color: var(--colors-white);
   background: var(--mdc-theme-primary);
@@ -10,6 +6,10 @@ body {
 
 h1 {
   font-weight: 900;
+}
+
+p {
+  color: var(--colors-text);
 }
 
 svg.avatar {
