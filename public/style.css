@@ -1,10 +1,30 @@
+/* Global */
+body {
+  color: var(--colors-text);
+}
+
+::selection {
+  color: var(--colors-white);
+  background: var(--mdc-theme-primary);
+}
+
+h1 {
+  font-weight: 900;
+}
+
+svg.avatar {
+  fill: var(--colors-white);
+  background: var(--colors-gray);
+}
+
 /* MDC button */
 .mdc-list .mdc-button {
-  color: var(--mdc-theme-gray);
+  color: var(--colors-gray);
 }
 
 /* MDC links */
-.mdc-list a {
+a {
+  color: inherit;
   text-decoration: none;
 }
 
@@ -14,9 +34,33 @@
 
 /* MDC svg */
 .mdc-list svg {
-  fill: var(--mdc-theme-gray);
+  fill: var(--colors-gray);
 }
 
 .mdc-list-item--selected svg {
   fill: var(--mdc-theme-primary);
+}
+
+/* MDC fab */
+.mdc-fab svg {
+  fill: white;
+}
+
+/* MDC form field */
+.mdc-form-field {
+  width: 100%;
+}
+
+.mdc-form-field ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.mdc-form-field .mdc-text-field {
+  width: 100%;
+}
+
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: var(--mdc-theme-secondary-dark);
 }

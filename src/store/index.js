@@ -13,6 +13,7 @@ const defaultState = {
   currentUser,
   drawerOpen: false,
   messagingToken: null,
+  notes: [],
 };
 let store = createStore(defaultState);
 
@@ -27,7 +28,7 @@ for (let i in rawActions) {
 }
 
 for (let i in subscriptions) {
-  subscriptions[i](store);
+  subscriptions[i](store, connectedActions);
 }
 
 store.subscribe(() => {

@@ -32,6 +32,9 @@ export default connect('currentUser,drawerOpen', actions)(
               <ToolbarMenuIcon
                 use="menu"
                 onClick={() => setDrawerOpen(!drawerOpen)}
+                onFocus={() => setDrawerOpen(true)}
+                onBlur={() => setDrawerOpen(false)}
+                tabIndex="1"
               />
             )}
             <ToolbarTitle>

@@ -1,54 +1,21 @@
-/* globals firebase */
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider, connect } from 'unistore/react';
-import { BrowserRouter as Router, withRouter } from 'react-router-dom';
-import { connectedActions, store, actions } from './store';
-import Routes from './routes';
-import { Drawer, Messaging, Toolbar } from './components';
+import { Provider } from 'unistore/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { store } from './store';
 
-let unlisten;
-const InnerApp = withRouter(
-  connect('', actions)(({ history, setLocation }) => {
-    if (typeof unlisten === 'function') {
-      unlisten();
-    }
-    unlisten = history.listen(setLocation);
+import Layout from './layout';
 
-    return (
-      <div>
-        <Messaging />
-        <Drawer />
-        <Toolbar />
-        <Routes />
-      </div>
-    );
-  })
-);
-
-function App() {
+const App = function() {
   return (
-    <div>
+    <div id="app">
       <Provider store={store}>
         <Router>
-          <InnerApp />
+          <Layout />
         </Router>
       </Provider>
     </div>
   );
-}
-
-
-/* 
-  CHALLENGE Authentication
-  - Review onAuthStateChanged docs
-  - https://firebase.google.com/docs/auth/web/manage-users
-  - Register an onAuthStateChanged callback
-  - Call setCurrentUser with the updated currentUser
-*/
-const { setCurrentUser } = connectedActions;
-firebase.auth().onAuthStateChanged(currentUser => {
-  setCurrentUser(currentUser);
-});
+};
 
 render(<App />, document.getElementById('root'));

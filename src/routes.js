@@ -9,25 +9,26 @@ import {
 } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions } from './store';
-import { Authenticate, LandingView, AccountView } from './components';
+import { Authenticate, NotesView, NoteAddView } from './components';
+
+const css = {
+  routeWrapper: {
+    padding: '1rem',
+  },
+};
 
 export default connect('currentUser', actions)(state => {
+  const redirects = getRedirects(state.currentUser);
   return (
-    <div>
-      <Route
-        exact
-        path="/login"
-        render={() =>
-          (state.currentUser && <Redirect to="/" />) || <Authenticate />
-        }
-      />
-      <Route exact path="/" render={guard(LandingView, state)} />
-      <Route path="/account" render={guard(AccountView, state)} />
+    <div style={css.routeWrapper}>
+      {redirects}
+      <Route exact path="/notes" render={guard(NotesView, state)} />
+      <Route path="/note-add" render={guard(NoteAddView, state)} />
     </div>
   );
 });
 
-const protectedPaths = new Set(['/', '/account']);
+const protectedPaths = new Set(['/', '/notes']);
 function guard(View, { currentUser }) {
   return ({ location }) => {
     const { pathname } = location;
@@ -38,4 +39,18 @@ function guard(View, { currentUser }) {
       return <View />;
     }
   };
+}
+
+const redirectPaths = ['/', '/login'];
+function getRedirects(currentUser) {
+  return redirectPaths.map(path => (
+    <Route
+      key={path}
+      exact
+      path={path}
+      render={() =>
+        (currentUser && <Redirect to="/notes" />) || <Authenticate />
+      }
+    />
+  ));
 }

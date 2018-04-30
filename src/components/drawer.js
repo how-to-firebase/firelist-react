@@ -33,7 +33,13 @@ const css = {
 export default connect('drawerOpen,location', actions)(
   ({ drawerOpen, location, setDrawerOpen }) => {
     return (
-      <Drawer temporary open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        temporary
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onFocus={() => setDrawerOpen(true)}
+        onBlur={() => setDrawerOpen(false)}
+      >
         <DrawerHeader className="mdc-theme--on-primary mdc-theme--primary-bg">
           <Bolt style={css.icon} />
           <span> Firelist </span>
@@ -64,6 +70,7 @@ function getListItems({ pathname } = { path: null }) {
             to={path}
             disabled={isActive}
             activeClassName="mdc-list-item--selected"
+            tabIndex="1"
           >
             <Button style={css.fullWidth} disabled={isActive}>
               <span style={css.listIcon}>{icon}</span>
