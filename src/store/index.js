@@ -12,8 +12,9 @@ const currentUser =
 const defaultState = {
   currentUser,
   drawerOpen: false,
-  messagingToken: null,
+  note: null,
   notes: [],
+  messagingToken: null,
 };
 let store = createStore(defaultState);
 

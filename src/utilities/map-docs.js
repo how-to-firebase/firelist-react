@@ -1,6 +1,5 @@
+import formatDoc from './format-doc';
+
 export default function mapDocs(docs) {
-  return docs.map(doc => ({
-    __id: doc.id,
-    ...doc.data(),
-  }));
+  return docs.map(formatDoc);
 }
