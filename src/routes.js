@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions } from './store';
-import { Authenticate, NotesView, NoteAddView } from './components';
+import { Authenticate, LandingView, NotesView, NoteAddView } from './components';
 
 const css = {
   routeWrapper: {
@@ -22,13 +22,14 @@ export default connect('currentUser', actions)(state => {
   return (
     <div style={css.routeWrapper}>
       {redirects}
+      <Route exact path="/" render={guard(LandingView, state)} />
       <Route exact path="/notes" render={guard(NotesView, state)} />
       <Route path="/note-add" render={guard(NoteAddView, state)} />
     </div>
   );
 });
 
-const protectedPaths = new Set(['/', '/notes']);
+const protectedPaths = new Set(['/notes']);
 function guard(View, { currentUser }) {
   return ({ location }) => {
     const { pathname } = location;
@@ -41,7 +42,7 @@ function guard(View, { currentUser }) {
   };
 }
 
-const redirectPaths = ['/', '/login'];
+const redirectPaths = ['/login'];
 function getRedirects(currentUser) {
   return redirectPaths.map(path => (
     <Route

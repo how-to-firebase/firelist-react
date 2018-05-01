@@ -1,6 +1,6 @@
 {
-  "short_name": "FirebaseReact",
-  "name": "Start your Firebase + React app here",
+  "short_name": "Firelist",
+  "name": "Firelist",
   "icons": [
     {
       "src": "assets/bolt-48px.png",
@@ -18,7 +18,7 @@
       "sizes": "144x144"
     }
   ],
-  "start_url": "index.html",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#00acc1",
   "background_color": "#5ddef4",

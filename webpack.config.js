@@ -28,7 +28,7 @@ module.exports = env => {
               options: { minimize: true },
             },
           ],
-        }
+        },
       ],
     },
 
@@ -59,6 +59,15 @@ module.exports = env => {
           );
           res.setHeader('Content-Type', 'application/javascript');
           res.send(devEnvironment);
+        });
+
+        app.get('*', (req, res, next) => {
+          const ending = req.url.split('/').pop();
+          if (req.url != '/main.js' && ending == 'main.js') {
+            res.redirect(302, '/main.js');
+          } else {
+            next();
+          }
         });
       },
     },

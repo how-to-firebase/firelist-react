@@ -52,7 +52,7 @@ export default connect('drawerOpen,location', actions)(
 
 const listItems = [
   { path: '/', text: 'Landing Page', icon: <Dashboard /> },
-  { path: '/account', text: 'Account', icon: <AccountBox /> },
+  { path: '/notes', text: 'Notes', icon: <AccountBox /> },
 ];
 function getListItems({ pathname } = { path: null }) {
   return listItems.map(({ icon, path, text }) => {
