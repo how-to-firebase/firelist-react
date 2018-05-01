@@ -17,6 +17,26 @@ svg.avatar {
   background: var(--colors-gray);
 }
 
+/* Hover  */
+[show-on-hover] {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+
+[hover-target]:hover [show-on-hover] {
+  opacity: 1;
+}
+
+/* Focus */
+[show-on-focus] {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+
+[focus-target]:focus [show-on-focus], [show-on-focus]:focus {
+  opacity: 1;
+}
+
 /* MDC button */
 .mdc-list .mdc-button {
   color: var(--colors-gray);

@@ -5,3 +5,5 @@ export Delete from './delete';
 export Exit from './exit';
 export NoteAdd from './note-add';
 export Person from './person';
+export ViewList from './view-list';
+

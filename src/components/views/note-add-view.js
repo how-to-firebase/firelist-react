@@ -35,7 +35,7 @@ export class NoteAddView extends React.Component {
   }
 
   get isValid() {
-    return this.state.title.length && this.state.description.length;
+    return this.state.title.length;
   }
 
   handleTitle(e) {
