@@ -12,6 +12,7 @@ import { DayPickerSingleDateController } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
 import { pick } from 'lodash';
+import moment from 'moment';
 import { getNoteObservable, updateNote } from '../../database';
 import { filterEmptyValues, isDirty, parseTags } from '../../utilities';
 
@@ -59,15 +60,16 @@ export class NoteView extends React.Component {
   }
 
   componentDidMount() {
-    const { noteId, setNote } = this.props;
+    const { noteId } = this.props;
     this.subscription = getNoteObservable(noteId).subscribe(note => {
+      note.dueDate = note.dueDate && moment(note.dueDate) || null;
+      
       this.setState({ serverNote: note, ...note });
     });
   }
 
   componentWillUnmount() {
-    this.subscription.unlisten();
-    setNote();
+    this.subscription.unsubscribe();
   }
 
   handleTitle(e) {
@@ -108,7 +110,7 @@ export class NoteView extends React.Component {
       const updates = {
         title,
         description,
-        dueDate,
+        dueDate: dueDate.toString(),
         location,
         tags,
       };
