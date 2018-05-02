@@ -13,7 +13,7 @@ p {
 }
 
 label {
-  color: rgba(0, 0, 0, .6);
+  color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
   letter-spacing: 0.00937em;
 }
@@ -21,6 +21,15 @@ label {
 svg.avatar {
   fill: var(--colors-white);
   background: var(--colors-gray);
+}
+
+svg[is-active='true'] {
+  fill: var(--mdc-theme-secondary);
+}
+
+svg[is-active='false'] {
+  fill: none;
+  stroke: var(--mdc-theme-secondary);
 }
 
 /* Hover  */
@@ -39,7 +48,8 @@ svg.avatar {
   transition: opacity 300ms linear;
 }
 
-[focus-target]:focus [show-on-focus], [show-on-focus]:focus {
+[focus-target]:focus [show-on-focus],
+[show-on-focus]:focus {
   opacity: 1;
 }
 

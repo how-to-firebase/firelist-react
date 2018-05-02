@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { Card, CardPrimaryAction, CardAction, CardActions } from 'rmwc/Card';
 import { ListDivider } from 'rmwc/List';
 import { Button } from 'rmwc/Button';
-import { Delete, Person } from '../svg';
-import { removeNote } from '../database';
+import { IconToggle } from 'rmwc/IconToggle';
+
+import { StarRate, Person } from '../svg';
+import { updateNote } from '../database';
+import { deleteFalsyValues } from '../utilities';
 
 const css = {
   row: {
@@ -39,7 +42,7 @@ const css = {
 export default function NotesList({ notes }) {
   return (
     <Card className="notes-list">
-      {notes.map(note => {
+      {notes.sort(notesSort).map(note => {
         return (
           <div key={note.__id}>
             <Link
@@ -62,15 +65,11 @@ export default function NotesList({ notes }) {
                     <h2 style={css.title}>{note.title}</h2>
                     <p style={css.description}>{note.description}</p>
                   </div>
-
-                  <Button
-                    ripple={false}
-                    onClick={handleClick(note.__id)}
-                    show-on-hover="true"
-                    show-on-focus="true"
-                  >
-                    <Delete style={css.icon} />
-                  </Button>
+                  <IconToggle onClick={toggleFavorite(note)}>
+                    <StarRate
+                      is-active={(note.isFavorite && 'true') || 'false'}
+                    />
+                  </IconToggle>
                 </div>
               </CardPrimaryAction>
             </Link>
@@ -82,10 +81,34 @@ export default function NotesList({ notes }) {
   );
 }
 
-function handleClick(noteId) {
+function notesSort(a, b) {
+  let result = sortByFavorite(a, b);
+
+  if (result == 0) {
+    result = sortByTitle(a, b);
+  }
+
+  return result;
+}
+
+function sortByFavorite(a, b) {
+  return a.isFavorite == b.isFavorite ? 0 : b.isFavorite ? 1 : -1;
+}
+
+function sortByTitle(a, b) {
+  return a.title == b.title
+    ? 0
+    : a.title.toLowerCase() > b.title.toLowerCase()
+      ? 1
+      : -1;
+}
+
+function toggleFavorite({ __id: noteId, isFavorite }) {
   return e => {
+    const updates = deleteFalsyValues({ isFavorite: !isFavorite });
+
     e.preventDefault();
-    e.stopPropagation();
-    removeNote(noteId);
+
+    updateNote(noteId, updates);
   };
 }

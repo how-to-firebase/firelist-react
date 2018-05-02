@@ -1,6 +1,7 @@
 import React from 'react';
 import { actions } from '../../store';
 import { connect } from 'unistore/react';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button } from 'rmwc/Button';
 import { FormField } from 'rmwc/FormField';
@@ -13,7 +14,7 @@ import 'react-dates/lib/css/_datepicker.css';
 
 import { pick } from 'lodash';
 import moment from 'moment';
-import { getNoteObservable, updateNote } from '../../database';
+import { getNoteObservable, removeNote, updateNote } from '../../database';
 import { filterEmptyValues, isDirty, parseTags } from '../../utilities';
 
 const css = {
@@ -62,8 +63,8 @@ export class NoteView extends React.Component {
   componentDidMount() {
     const { noteId } = this.props;
     this.subscription = getNoteObservable(noteId).subscribe(note => {
-      note.dueDate = note.dueDate && moment(note.dueDate) || null;
-      
+      note.dueDate = (note.dueDate && moment(note.dueDate)) || null;
+
       this.setState({ serverNote: note, ...note });
     });
   }
@@ -100,6 +101,14 @@ export class NoteView extends React.Component {
     return ({ key }) => key == 'Enter' && this.submit();
   }
 
+  removeNote() {
+    return async e => {
+      e.preventDefault();
+      await removeNote(this.state.__id);
+      this.setState({ redirect: true });
+    };
+  }
+
   async submit(e) {
     if (this.isValid) {
       const { title, description, dueDate, location, tags } = this.state;
@@ -119,7 +128,10 @@ export class NoteView extends React.Component {
   }
 
   render() {
-    return (
+    const { redirect } = this.state;
+    return redirect ? (
+      <Redirect to="/notes" />
+    ) : (
       <form
         onSubmit={this.submit.bind(this)}
         onKeyPress={this.handleKeyPress()}
@@ -189,6 +201,9 @@ export class NoteView extends React.Component {
               <Link to="/notes" style={css.button} tabIndex="-1">
                 <Button ripple={false}>back</Button>
               </Link>
+              <Button ripple={false} onClick={this.removeNote()}>
+                delete
+              </Button>
             </li>
           </ul>
         </FormField>
