@@ -15,7 +15,12 @@ import 'react-dates/lib/css/_datepicker.css';
 import { pick } from 'lodash';
 import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
-import { omitEmptyValues, isDirty, parseTags } from '../../utilities';
+import {
+  deleteEmptyValues,
+  isDirty,
+  omitEmptyValues,
+  parseTags,
+} from '../../utilities';
 
 const css = {
   buttons: {
@@ -63,7 +68,9 @@ export class NoteView extends React.Component {
   componentDidMount() {
     const { noteId } = this.props;
     this.subscription = getNoteObservable(noteId).subscribe(note => {
-      note.dueDate = (note.dueDate && moment(note.dueDate)) || null;
+      if (note.dueDate) {
+        note.dueDate = moment(note.dueDate);
+      }
 
       this.setState({ serverNote: note, ...note });
     });
@@ -116,13 +123,13 @@ export class NoteView extends React.Component {
 
       e && e.preventDefault();
 
-      const updates = {
+      const updates = deleteEmptyValues({
         title,
         description,
-        dueDate: dueDate.toString(),
+        dueDate: (dueDate && dueDate.toString()) || null,
         location,
         tags,
-      };
+      });
       return updateNote(noteId, updates);
     }
   }

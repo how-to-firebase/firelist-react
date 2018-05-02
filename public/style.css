@@ -12,6 +12,10 @@ p {
   color: var(--colors-text);
 }
 
+p svg {
+  fill: var(--colors-text);
+}
+
 label {
   color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
@@ -30,6 +34,10 @@ svg[is-active='true'] {
 svg[is-active='false'] {
   fill: none;
   stroke: var(--mdc-theme-secondary);
+}
+
+[hidden] {
+  display: none !important;
 }
 
 /* Hover  */

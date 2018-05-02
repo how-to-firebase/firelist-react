@@ -8,7 +8,7 @@ import NotesList from '../notes-list';
 
 const css = {
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: '2rem',
     right: '2rem',
   },

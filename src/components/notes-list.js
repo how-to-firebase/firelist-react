@@ -1,82 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardPrimaryAction, CardAction, CardActions } from 'rmwc/Card';
-import { ListDivider } from 'rmwc/List';
-import { Button } from 'rmwc/Button';
-import { IconToggle } from 'rmwc/IconToggle';
-
-import { StarRate, Person } from '../svg';
-import { updateNote } from '../database';
-import { deleteFalsyValues } from '../utilities';
-
-const css = {
-  row: {
-    display: 'flex',
-    padding: '1rem',
-    alignItems: 'center',
-  },
-  image: {
-    borderRadius: '50%',
-    height: '3rem',
-    width: '3rem',
-    margin: '0 1rem',
-  },
-  centerBlock: {
-    flexGrow: '1',
-  },
-  title: {
-    fontWeight: '500',
-    margin: '0',
-  },
-  description: {
-    margin: '0',
-  },
-  icon: {
-    borderRadius: '50%',
-    height: '2rem',
-    width: '2rem',
-    margin: '0 1rem',
-  },
-};
+import { Card } from 'rmwc/Card';
+import Note from './note';
 
 export default function NotesList({ notes }) {
   return (
     <Card className="notes-list">
-      {notes.sort(notesSort).map(note => {
-        return (
-          <div key={note.__id}>
-            <Link
-              to={`/note/${note.__id}`}
-              hover-target="true"
-              focus-target="true"
-            >
-              <CardPrimaryAction ripple={false}>
-                <div style={css.row}>
-                  {note.photoURL ? (
-                    <img
-                      src={note.photoURL}
-                      alt={note.displayName}
-                      style={css.image}
-                    />
-                  ) : (
-                    <Person className="avatar" style={css.image} />
-                  )}
-                  <div style={css.centerBlock}>
-                    <h2 style={css.title}>{note.title}</h2>
-                    <p style={css.description}>{note.description}</p>
-                  </div>
-                  <IconToggle onClick={toggleFavorite(note)}>
-                    <StarRate
-                      is-active={(note.isFavorite && 'true') || 'false'}
-                    />
-                  </IconToggle>
-                </div>
-              </CardPrimaryAction>
-            </Link>
-            <ListDivider />
-          </div>
-        );
-      })}
+      {notes.sort(notesSort).map((note, i) => <Note note={note} key={i} />)}
     </Card>
   );
 }
@@ -101,14 +30,4 @@ function sortByTitle(a, b) {
     : a.title.toLowerCase() > b.title.toLowerCase()
       ? 1
       : -1;
-}
-
-function toggleFavorite({ __id: noteId, isFavorite }) {
-  return e => {
-    const updates = deleteFalsyValues({ isFavorite: !isFavorite });
-
-    e.preventDefault();
-
-    updateNote(noteId, updates);
-  };
 }
