@@ -1,4 +1,5 @@
 /* globals firebase */
+import { omitEmptyValues } from '../utilities';
 
 /* 
   CHALLENGE Firestore
@@ -11,12 +12,13 @@ const notesCollection = db.collection('notes');
 
 export default async ({ title, description, currentUser }) => {
   const { displayName, photoURL, uid: owner } = currentUser;
-  const note = {
+  const note = omitEmptyValues({
     description,
     displayName,
+    photoURL,
     title,
     owner,
-  };
+  });
 
   /* 
     CHALLENGE Firestore
@@ -26,9 +28,6 @@ export default async ({ title, description, currentUser }) => {
     - Hint: While Firestore supports null values, it does not support undefined value
     -       It's preferred to store nothing at all instead of a null
   */
-  if (photoURL) {
-    note.photoURL = photoURL;
-  }
 
   return notesCollection.add(note);
 };

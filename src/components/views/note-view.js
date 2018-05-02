@@ -15,7 +15,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import { pick } from 'lodash';
 import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
-import { filterEmptyValues, isDirty, parseTags } from '../../utilities';
+import { omitEmptyValues, isDirty, parseTags } from '../../utilities';
 
 const css = {
   buttons: {
@@ -55,7 +55,7 @@ export class NoteView extends React.Component {
   get isDirty() {
     const keys = ['title', 'description', 'dueDate', 'location', 'tags'];
     const serverNote = pick(this.state.serverNote, keys);
-    const note = filterEmptyValues(pick(this.state, keys));
+    const note = omitEmptyValues(pick(this.state, keys));
 
     return isDirty(note, serverNote);
   }
@@ -216,9 +216,9 @@ export default connect('note', actions)(NoteView);
 
 function getTagsChips(tags) {
   const chips = tags.length
-    ? parseTags(tags).map(tag => {
+    ? parseTags(tags).map((tag, i) => {
         return (
-          <Chip key={tag} tabIndex="-1">
+          <Chip key={i} tabIndex="-1">
             {tag}
           </Chip>
         );
