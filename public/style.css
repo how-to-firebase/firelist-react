@@ -12,6 +12,12 @@ p {
   color: var(--colors-text);
 }
 
+label {
+  color: rgba(0, 0, 0, .6);
+  font-size: 12px;
+  letter-spacing: 0.00937em;
+}
+
 svg.avatar {
   fill: var(--colors-white);
   background: var(--colors-gray);
@@ -83,4 +89,9 @@ a {
 
 .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
   color: var(--mdc-theme-secondary-dark);
+}
+
+/* React Dates */
+.DayPickerKeyboardShortcuts_show__bottomRight {
+  border-right-color: var(--mdc-theme-secondary-dark) !important;
 }

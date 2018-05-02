@@ -5,12 +5,15 @@ import { Link } from 'react-router-dom';
 import { Button } from 'rmwc/Button';
 import { FormField } from 'rmwc/FormField';
 import { TextField } from 'rmwc/TextField';
-
-import { getNoteObservable } from '../../database';
+import { ChipSet, Chip } from 'rmwc/Chip';
 
 import 'react-dates/initialize';
-import { SingleDatePicker } from 'react-dates';
+import { DayPickerSingleDateController } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+
+import { pick } from 'lodash';
+import { getNoteObservable, updateNote } from '../../database';
+import { filterEmptyValues, isDirty, parseTags } from '../../utilities';
 
 const css = {
   buttons: {
@@ -37,6 +40,9 @@ export class NoteView extends React.Component {
       title: '',
       description: '',
       dueDate: null,
+      location: '',
+      tags: '',
+      serverNote: null,
     };
   }
 
@@ -44,10 +50,18 @@ export class NoteView extends React.Component {
     return this.state.title.length;
   }
 
+  get isDirty() {
+    const keys = ['title', 'description', 'dueDate', 'location', 'tags'];
+    const serverNote = pick(this.state.serverNote, keys);
+    const note = filterEmptyValues(pick(this.state, keys));
+
+    return isDirty(note, serverNote);
+  }
+
   componentDidMount() {
     const { noteId, setNote } = this.props;
     this.subscription = getNoteObservable(noteId).subscribe(note => {
-      this.setState(note);
+      this.setState({ serverNote: note, ...note });
     });
   }
 
@@ -69,29 +83,45 @@ export class NoteView extends React.Component {
   }
 
   handleDueDateChange() {
-    return momentDate => this.setState({ dueDate: momentDate.toString() });
+    return dueDate => this.setState({ dueDate });
   }
 
   handleDueDateFocus() {
     return ({ focused }) => this.setState({ focused });
   }
 
-  submit(e) {
-    const { title, description, dueDate } = this.state;
-    const { noteId } = this.props;
-    e.preventDefault();
+  removeDueDate() {
+    return () => this.setState({ dueDate: null });
+  }
 
-    const updates = {
-      title,
-      description,
-      dueDate,
-    };
+  handleKeyPress() {
+    return ({ key }) => key == 'Enter' && this.submit();
+  }
+
+  async submit(e) {
+    if (this.isValid) {
+      const { title, description, dueDate, location, tags } = this.state;
+      const { noteId } = this.props;
+
+      e && e.preventDefault();
+
+      const updates = {
+        title,
+        description,
+        dueDate,
+        location,
+        tags,
+      };
+      return updateNote(noteId, updates);
+    }
   }
 
   render() {
-    console.log('this.state.dueDate', this.state.dueDate);
     return (
-      <form onSubmit={this.submit.bind(this)}>
+      <form
+        onSubmit={this.submit.bind(this)}
+        onKeyPress={this.handleKeyPress()}
+      >
         <FormField>
           <label style={css.hidden}>edit {this.state.title}</label>
           <ul>
@@ -112,16 +142,46 @@ export class NoteView extends React.Component {
               />
             </li>
             <li>
-              <SingleDatePicker
-                date={this.state.dueDate}
-                onDateChange={this.handleDueDateChange()}
-                focused={this.state.focused}
-                onFocusChange={this.handleDueDateFocus()}
-                numberOfMonths={1}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <label>Due Date</label>
+                <Button
+                  onClick={this.removeDueDate()}
+                  disabled={!this.state.dueDate}
+                >
+                  Remove Due Date
+                </Button>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <DayPickerSingleDateController
+                  date={this.state.dueDate}
+                  onDateChange={this.handleDueDateChange()}
+                  focused={this.state.focused}
+                  onFocusChange={this.handleDueDateFocus()}
+                  numberOfMonths={1}
+                />
+              </div>
+            </li>
+            <li>
+              <TextField
+                label="Location"
+                value={this.state.location}
+                onChange={this.genericHandler('location')}
               />
             </li>
+            <li>
+              <TextField
+                label="Tags"
+                value={this.state.tags}
+                onChange={this.genericHandler('tags')}
+              />
+            </li>
+            <li>{getTagsChips(this.state.tags)}</li>
             <li style={css.buttons}>
-              <Button raised style={css.button} disabled={!this.isValid}>
+              <Button
+                raised
+                style={css.button}
+                disabled={!this.isValid || !this.isDirty}
+              >
                 save
               </Button>
               <Link to="/notes" style={css.button} tabIndex="-1">
@@ -136,3 +196,16 @@ export class NoteView extends React.Component {
 }
 
 export default connect('note', actions)(NoteView);
+
+function getTagsChips(tags) {
+  const chips = tags.length
+    ? parseTags(tags).map(tag => {
+        return (
+          <Chip key={tag} tabIndex="-1">
+            {tag}
+          </Chip>
+        );
+      })
+    : null;
+  return <ChipSet>{chips}</ChipSet>;
+}
