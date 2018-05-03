@@ -1,6 +1,4 @@
 const environment = {
-  firebaseRoot: 'development',
-  isDevelopment: true,
   firebase: {
     apiKey: 'AIzaSyBJ4DGhjq1TokIj7UrVMuUCqdAXO3g_FAs',
     authDomain: 'firelist-react.firebaseapp.com',
@@ -9,4 +7,7 @@ const environment = {
     storageBucket: 'firelist-react.appspot.com',
     messagingSenderId: '408807346380',
   },
+  firebaseRoot: 'development',
+  isDevelopment: true,
+  uploadPath: 'firelist-react/uploads',
 };

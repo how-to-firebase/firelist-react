@@ -1,9 +1,9 @@
-/* globals firebase environment */
+/* globals firebase */
 export default store => {
   let laggedCurrentUser;
   let laggedMessagingToken;
   return store.subscribe(async () => {
-    const { currentUser, messagingToken } = store.getState();
+    const { currentUser, environment, messagingToken } = store.getState();
     const now = new Date().toString();
     const updates = {};
 

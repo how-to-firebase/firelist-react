@@ -15,6 +15,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import { pick } from 'lodash';
 import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
+import FileUpload from '../file-upload';
 import {
   deleteEmptyValues,
   isDirty,
@@ -50,6 +51,7 @@ export class NoteView extends React.Component {
       location: '',
       tags: '',
       serverNote: null,
+      loaded: false,
     };
   }
 
@@ -72,7 +74,7 @@ export class NoteView extends React.Component {
         note.dueDate = moment(note.dueDate);
       }
 
-      this.setState({ serverNote: note, ...note });
+      this.setState({ serverNote: note, loaded: true, ...note });
     });
   }
 
@@ -197,6 +199,12 @@ export class NoteView extends React.Component {
               />
             </li>
             <li>{getTagsChips(this.state.tags)}</li>
+            <li>
+              <FileUpload
+                disabled={!this.state.loaded}
+                noteId={this.state.__id}
+              />
+            </li>
             <li style={css.buttons}>
               <Button
                 raised

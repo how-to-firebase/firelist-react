@@ -12,6 +12,7 @@ const currentUser =
 const defaultState = {
   currentUser,
   drawerOpen: false,
+  environment,
   note: null,
   notes: [],
   messagingToken: null,

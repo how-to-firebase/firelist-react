@@ -61,6 +61,16 @@ svg[is-active='false'] {
   opacity: 1;
 }
 
+/* Progress Bar */
+.progress-bar {
+  height: 4px;
+}
+
+.progress-bar > div {
+  background: var(--mdc-theme-secondary);
+  height: 100%;
+}
+
 /* MDC button */
 .mdc-list .mdc-button {
   color: var(--colors-gray);
