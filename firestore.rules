@@ -1,7 +1,37 @@
+// Challenge Firestore
+// See https://firebase.google.com/docs/firestore/security/get-started
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+    // Write one read,write rule for /users/{uid}
+    // read, write: request.auth.uid must equal uid
+
+    match /users/{uid} {
+      allow read, write: if request.auth.uid == uid
+    }
+
+    // See https://firebase.google.com/docs/firestore/security/rules-conditions#custom_functions
+    // These rules rely on custom functions
+    function isOwner() {
+      // The auth token's uid must equal the record's owner field
+      return request.auth.uid == resource.data.owner
+    }
+
+    function isOwnerRequest() {
+      // The auth token's uid must equal the attempted write's owner field
+      return request.auth.uid == request.resource.data.owner
+    }
+
+    match /notes/{noteId} { // Applies to all top-level notes
+      allow read: if isOwner()
+      allow write: if isOwner()
+      allow create: if isOwnerRequest()
+    }
+
+    match /notes/{noteId}/{document=**} { // Applies to all note sub-collections
+      allow read: if isOwner()
+      allow write: if isOwner()
+      allow create: if isOwnerRequest()
     }
   }
 }

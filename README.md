@@ -53,3 +53,5 @@ Our `yarn start` command uses [Webpack](https://webpack.js.org/) and the [Webpac
 ## Tooling
 
 We're huge fans of [VSCode](https://code.visualstudio.com/) and highly recommend it for local development.
+
+If you're using VSCode, try the [Firebase](https://github.com/toba/vsfire) extension for Firestore security rules highlighting.

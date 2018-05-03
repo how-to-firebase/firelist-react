@@ -10,13 +10,13 @@ export default (store, { setNotes }) => {
 
       /* 
         CHALLENGE Firestore
-        - Use getNotesObservable to get the observable and subscribe to it
-        - Call setNotes in the subscribe callback
+        - Use getNotesObservable(currentUser) to get the observable and subscribe to it
+        - Call setNotes(notes) in the subscribe callback
         - Hint: Make sure to save the subscription to the 'subscription' variable from line 4.
                 The next `if` block handles unsubscripitions, and it needs the subscription
                 object to unsubscribe.
       */
-      subscription = getNotesObservable().subscribe(notes => setNotes(notes));
+      subscription = getNotesObservable(currentUser).subscribe(notes => setNotes(notes));
     } else if (!currentUser && subscription) {
       // Handle user log out
 

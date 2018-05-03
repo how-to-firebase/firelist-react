@@ -12,7 +12,17 @@ const notesCollection = db.collection('notes');
 
 export default async ({ title, description, currentUser }) => {
   const { displayName, photoURL, uid: owner } = currentUser;
-  const note = omitEmptyValues({
+  const note = { description, displayName, photoURL, title, owner };
+
+  /* 
+    CHALLENGE Firestore
+    - See https://firebase.google.com/docs/firestore/manage-data/add-data
+    - Use omitEmptyValues(note) to clear out undefined, null or '' values
+    - Add the note to notesCollection with the .add(cleanNote) function
+    - Hint: While Firestore supports null values, it does not support undefined values
+    -       Also, it's generally preferred to store nothing at all instead of a null
+  */
+  const cleanNote = omitEmptyValues({
     description,
     displayName,
     photoURL,
@@ -20,14 +30,5 @@ export default async ({ title, description, currentUser }) => {
     owner,
   });
 
-  /* 
-    CHALLENGE Firestore
-    - See https://firebase.google.com/docs/firestore/manage-data/add-data
-    - Add the note to notesCollection with the .add() function
-    - Add the photoURL to the note if it's not empty
-    - Hint: While Firestore supports null values, it does not support undefined value
-    -       It's preferred to store nothing at all instead of a null
-  */
-
-  return notesCollection.add(note);
+  return notesCollection.add(cleanNote);
 };

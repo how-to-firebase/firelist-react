@@ -34,6 +34,12 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --env.development",
     "build": "webpack --mode production",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "deploy": "firebase deploy",
+    "deploy:database": "firebase deploy --only database",
+    "deploy:firestore": "firebase deploy --only firestore",
+    "deploy:functions": "firebase deploy --only functions",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:storage": "firebase deploy --only storage"
   }
 }
