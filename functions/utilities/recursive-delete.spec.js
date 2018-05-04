@@ -1,4 +1,5 @@
-const { devAdmin: admin, recursiveDelete } = require('.');
+const { recursiveDelete } = require('.');
+const admin = require('./dev-admin');
 const collections = ['one', 'two', 'three', 'four'];
 const db = admin.firestore();
 

@@ -1,66 +1,62 @@
 const { calculateDownloadUrl } = require('../utilities');
 
-/* 
-  CHALLENGE Cloud Functions
-  - 
-*/
 module.exports = function UploadsOnFinalize({ admin, environment }) {
   const db = admin.firestore();
   const { paths, collections } = environment;
 
   return event => {
-    const nameParts = event.name.split('/');
-    const filename = nameParts.pop();
-    const noteId = nameParts.pop();
-    const uploadFolder = nameParts.join('/');
+    // Always return a promise from every Cloud Function
     let promise = Promise.resolve();
 
-    if (uploadFolder == paths.uploads) {
-      const downloadURL = calculateDownloadUrl(event);
-      const { md5Hash, name } = event;
-      const batch = db.batch();
+    if (fileMatchsUploadsPath({ event, environment })) {
+      const { noteId, downloadURL, md5Hash, name } = parseEvent(event);
+      const noteUpdate = { updated: Date().toString() };
+      const galleryUpdate = { downloadURL, md5Hash, name };
 
-      const noteRef = db
-        .collection(collections.notes)
-        .doc(noteId);
+      const notesCollectionName = collections.notes;
+      const galleryCollectionName = collections.gallery;
 
+      /* 
+        CHALLENGE Cloud Functions
+        - Save a noteRef and an imageRef
+        - noteRef   pattern: {notesCollectionName}/{noteId}
+        - imageRef  pattern: {notesCollectionName}/{noteId}/{galleryCollectionName}/{md5Hash}
+        - Stage a batch.set() job to write the noteUpdate to noteRef
+        - Stage a batch.set() job to write the galleryUpdate to galleryRef
+        - Use { merge: true} as options for both batchWrite functions to ensure that no existing
+          data gets deleted
+        - Assign the result of batch.commit() to the promise variable
+      */
+
+      const noteRef = db.collection(collections.notes).doc(noteId);
       const imageRef = noteRef.collection(collections.gallery).doc(md5Hash);
 
-      batch.set(noteRef, { updated: Date().toString() });
-      batch.set(imageRef, { downloadURL, md5Hash, name }, { merge: true });
+      const batch = db.batch();
+      batch.set(noteRef, noteUpdate, { merge: true });
+      batch.set(imageRef, galleryUpdate, { merge: true });
 
+      // Returing imageRef for testing purposes only
       promise = batch.commit().then(() => imageRef);
     }
 
+    // Always return a promise from a Cloud Function
     return promise;
   };
 };
 
-// const sampleEvent = {
-//   bucket: 'firelist-react.appspot.com',
-//   contentDisposition:
-//     "inline; filename*=utf-8''chrisesplin-headshot-6-600x600.jpg",
-//   contentType: 'image/jpeg',
-//   crc32c: 'vr1Wlg==',
-//   etag: 'CNOjmIL869oCEAE=',
-//   generation: '1525433875435987',
-//   id:
-//     'firelist-react.appspot.com/firelist-react/uploads/5ccM4M3aaS3IolEnAKWB/chrisesplin-headshot-6-600x600.jpg/1525433875435987',
-//   kind: 'storage#object',
-//   md5Hash: 'TMhCLMo319sLbrzVOLae5Q==',
-//   mediaLink:
-//     'https://www.googleapis.com/download/storage/v1/b/firelist-react.appspot.com/o/firelist-react%2Fuploads%2F5ccM4M3aaS3IolEnAKWB%2Fchrisesplin-headshot-6-600x600.jpg?generation=1525433875435987&alt=media',
-//   metadata: {
-//     firebaseStorageDownloadTokens: '51b4bb2f-ef18-4f82-8380-b5a23d99a202',
-//   },
-//   metageneration: '1',
-//   name:
-//     'firelist-react/uploads/5ccM4M3aaS3IolEnAKWB/chrisesplin-headshot-6-600x600.jpg',
-//   selfLink:
-//     'https://www.googleapis.com/storage/v1/b/firelist-react.appspot.com/o/firelist-react%2Fuploads%2F5ccM4M3aaS3IolEnAKWB%2Fchrisesplin-headshot-6-600x600.jpg',
-//   size: '271526',
-//   storageClass: 'STANDARD',
-//   timeCreated: '2018-05-04T11:37:55.379Z',
-//   timeStorageClassUpdated: '2018-05-04T11:37:55.379Z',
-//   updated: '2018-05-04T11:37:55.379Z',
-// };
+function fileMatchsUploadsPath({ event, environment }) {
+  const { folder } = parseEvent(event);
+
+  return folder == environment.paths.uploads;
+}
+
+function parseEvent(event) {
+  const downloadURL = calculateDownloadUrl(event);
+  const { name, md5Hash } = event;
+  const nameParts = name.split('/');
+  const filename = nameParts.pop();
+  const noteId = nameParts.pop();
+  const folder = nameParts.join('/');
+
+  return { filename, noteId, folder, downloadURL, name, md5Hash };
+}
