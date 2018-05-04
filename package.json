@@ -17,6 +17,7 @@
     "html-webpack-plugin": "^3.1.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
+    "node": "6.14.2",
     "react": "^16.3.2",
     "react-dates": "^16.6.1",
     "react-dom": "^16.3.2",
@@ -35,11 +36,13 @@
     "start": "webpack-dev-server --mode development --env.development",
     "build": "webpack --mode production",
     "test": "jest --watchAll",
+    "test:functions": "cd functions && jest --watchAll",
     "deploy": "firebase deploy",
     "deploy:database": "firebase deploy --only database",
     "deploy:firestore": "firebase deploy --only firestore",
     "deploy:functions": "firebase deploy --only functions",
     "deploy:hosting": "firebase deploy --only hosting",
-    "deploy:storage": "firebase deploy --only storage"
+    "deploy:storage": "firebase deploy --only storage",
+    "v": "node --version"
   }
 }

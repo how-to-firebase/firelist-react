@@ -24,7 +24,7 @@ var messaging = firebase.messaging();
 */
 
 const iconUrl =
-  'https://firebasestorage.googleapis.com/v0/b/firelist-react.appspot.com/o/bolt-144px.png?alt=media&token=c61aacb2-94b8-466b-93ec-a97dcc67efdb';
+  'https://firebasestorage.googleapis.com/v0/b/firelist-react.appspot.com/o/assets%2Fbolt-144px.png?alt=media&token=a747522e-22a4-496d-bcc9-429a007a86fb';
 messaging.setBackgroundMessageHandler(payload =>
   self.registration.showNotification('Firelist', {
     body: payload.data.message,

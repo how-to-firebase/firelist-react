@@ -1,0 +1,12 @@
+{
+  "collections": {
+    "notes": "notes-dev",
+    "gallery": "gallery"
+  },
+  "firebase": {
+    "databaseURL": "https://firelist-react.firebaseio.com"
+  },
+  "paths": {
+    "uploads": "firelist-react/uploads"
+  }
+}

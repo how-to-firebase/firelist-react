@@ -55,3 +55,21 @@ Our `yarn start` command uses [Webpack](https://webpack.js.org/) and the [Webpac
 We're huge fans of [VSCode](https://code.visualstudio.com/) and highly recommend it for local development.
 
 If you're using VSCode, try the [Firebase](https://github.com/toba/vsfire) extension for Firestore security rules highlighting.
+
+## Node Versions
+
+Cloud Functions lags in its support for Node.js. It supports one or two LTS versions back. So we'll want to run our Cloud Functions code in a very specific version of Node.js
+
+The trick is to run `yarn add node@6.14.2 --save-exact` to install v6.14.2 locally. This doesn't affect global node versions, but any script in `package.json` will run on v6.14.2.
+
+You can test this with a `package.json` script:
+
+```json
+"scripts": {
+  "v": "node --version"
+}
+```
+
+The run `yarn v`. You should see `v6.14.2` in the output.
+
+Now our tests will ensure compatibility with Cloud Functions!
