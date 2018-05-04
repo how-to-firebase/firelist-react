@@ -18,15 +18,18 @@ module.exports = function UploadsOnFinalize({ admin, environment }) {
     if (uploadFolder == paths.uploads) {
       const downloadURL = calculateDownloadUrl(event);
       const { md5Hash, name } = event;
-      const imageRef = db
-        .collection(collections.notes)
-        .doc(noteId)
-        .collection(collections.gallery)
-        .doc(md5Hash);
+      const batch = db.batch();
 
-      promise = imageRef
-        .set({ downloadURL, md5Hash, name }, { merge: true })
-        .then(() => imageRef);
+      const noteRef = db
+        .collection(collections.notes)
+        .doc(noteId);
+
+      const imageRef = noteRef.collection(collections.gallery).doc(md5Hash);
+
+      batch.set(noteRef, { updated: Date().toString() });
+      batch.set(imageRef, { downloadURL, md5Hash, name }, { merge: true });
+
+      promise = batch.commit().then(() => imageRef);
     }
 
     return promise;

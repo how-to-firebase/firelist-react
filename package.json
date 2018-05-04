@@ -36,7 +36,7 @@
     "start": "webpack-dev-server --mode development --env.development",
     "build": "webpack --mode production",
     "test": "jest --watchAll",
-    "test:functions": "cd functions && jest --watchAll",
+    "test:functions": "cd functions && node --version && jest --watchAll",
     "deploy": "firebase deploy",
     "deploy:database": "firebase deploy --only database",
     "deploy:firestore": "firebase deploy --only firestore",

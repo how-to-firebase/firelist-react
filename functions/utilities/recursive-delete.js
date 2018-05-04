@@ -42,12 +42,18 @@ function getAllRefs({ ref, collections }) {
 
 function deleteBatches(db, batches) {
   const batchesToDelete = batches.slice(0);
-  const refs = batchesToDelete.pop();
-  const batch = db.batch();
-  refs.forEach(ref => batch.delete(ref));
-  return batch
-    .commit()
-    .then(
-      () => (batchesToDelete.length ? deleteBatches(db, batchesToDelete) : true)
-    );
+  let promise = Promise.resolve();
+  if (batchesToDelete.length) {
+    const refs = batchesToDelete.pop();
+    const batch = db.batch();
+    refs.forEach(ref => batch.delete(ref));
+    promise = batch
+      .commit()
+      .then(
+        () =>
+          batchesToDelete.length ? deleteBatches(db, batchesToDelete) : true
+      );
+  }
+
+  return promise;
 }

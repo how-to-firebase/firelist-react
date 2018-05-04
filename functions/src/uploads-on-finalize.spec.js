@@ -1,4 +1,8 @@
-const { devAdmin: admin, calculateDownloadUrl } = require('../utilities');
+const {
+  devAdmin: admin,
+  calculateDownloadUrl,
+  recursiveDelete,
+} = require('../utilities');
 const environment = require('../environments/environment.dev.json');
 const UploadsOnFinalize = require('./uploads-on-finalize');
 const sampleEvent = require('../sample-events/on-finalize.json');
@@ -7,6 +11,15 @@ const db = admin.firestore();
 const notesRef = db.collection(environment.collections.notes);
 
 describe('UploadsOnFinalize', () => {
+  beforeAll(done => {
+    const { notes, gallery } = environment.collections;
+
+    recursiveDelete({ db, collections: [notes, gallery] }).then(
+      refs => done(),
+      done.fail
+    );
+  });
+
   let uploadsOnFinalize, event;
   beforeEach(() => {
     event = { ...sampleEvent };
@@ -16,25 +29,27 @@ describe('UploadsOnFinalize', () => {
   describe('functionality', () => {
     let result;
     beforeEach(done => {
-      console.log('here');
       uploadsOnFinalize(event)
         .then(imageRef => imageRef.get())
-        .then(doc => (result = doc.data()))
-        .then(done)
-        .catch(error => {
-          console.log('error', error);
-          done.fail(error);
-        });
+        .then(doc => {
+          result = doc.data();
+          return done();
+        })
+        .catch(done.fail);
     });
 
-    it('should write the record to Firestore', () => {
-      const expected = {
-        downloadURL,
-        md5Hash: sampleEvent.md5Hash,
-        name: sampleEvent.name,
-      };
+    it(
+      'should write the record to Firestore',
+      () => {
+        const expected = {
+          downloadURL,
+          md5Hash: sampleEvent.md5Hash,
+          name: sampleEvent.name,
+        };
 
-      expect(result).toEqual(expected);
-    });
+        expect(result).toEqual(expected);
+      },
+      30 * 1000
+    );
   });
 });
