@@ -8,6 +8,12 @@ import { deleteImage } from '../storage';
 import { formatDoc } from '../utilities';
 import { Delete } from '../svg';
 
+const css = {
+  wrapper: {
+    display: 'flex',
+  },
+};
+
 export function Images({ images }) {
   const imagesList = Object.keys(images).map(md5Hash => ({
     md5Hash,
@@ -15,7 +21,7 @@ export function Images({ images }) {
   }));
 
   return (
-    <div>
+    <div style={css.wrapper}>
       {imagesList.map((image, i) => {
         return <Image key={i} {...image} />;
       })}
@@ -25,7 +31,7 @@ export function Images({ images }) {
 
 export default connect('environment', actions)(Images);
 
-const css = {
+const imageCss = {
   wrapper: {
     position: 'relative',
     display: 'flex',
@@ -33,7 +39,8 @@ const css = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '275px',
-    width: '250px',
+    maxWidth: '250px',
+    padding: '0 .5rem'
   },
   deleteButton: {
     position: 'absolute',
@@ -41,8 +48,7 @@ const css = {
     right: '1rem',
   },
   img: {
-    maxHeight: 'calc(100% - 25px)',
-    maxWidth: 'calc(100% - 1rem)',
+    height: 'calc(100% - 25px)',
   },
   filename: {
     fontSize: '10px',
@@ -64,12 +70,17 @@ class Image extends React.Component {
   render() {
     const { downloadURL, filename, name } = this.props;
     return (
-      <div style={css.wrapper} disabled={this.state.disabled}>
-        <IconToggle onClick={this.removeImage()} style={css.deleteButton}>
-          <Delete highlight="true" />
-        </IconToggle>
-        <img src={downloadURL} alt={filename} style={css.img} />
-        <span style={css.filename}>{filename}</span>
+      <div style={imageCss.wrapper} disabled={this.state.disabled}>
+        {name && (
+          <IconToggle
+            onClick={this.removeImage()}
+            style={imageCss.deleteButton}
+          >
+            <Delete highlight="true" />
+          </IconToggle>
+        )}
+        <img src={downloadURL} alt={filename} style={imageCss.img} />
+        <span style={imageCss.filename}>{filename}</span>
       </div>
     );
   }

@@ -120,6 +120,18 @@ export class NoteView extends React.Component {
     };
   }
 
+  handleUpload() {
+    return ({ file, src }) => {
+      const images = { ...this.state.images };
+      console.log('file', file, src);
+      images[file.name] = {
+        downloadURL: src,
+        filename: file.name,
+      };
+      this.setState({ images });
+    };
+  }
+
   async submit(e) {
     if (this.isValid) {
       const { title, description, dueDate, location, tags } = this.state;
@@ -208,6 +220,7 @@ export class NoteView extends React.Component {
               <FileUpload
                 disabled={!this.state.loaded}
                 noteId={this.state.__id}
+                onComplete={this.handleUpload()}
               />
             </li>
             <li style={css.buttons}>

@@ -45,15 +45,18 @@ export class FileUpload extends React.Component {
 
     return () => {
       const { files } = this.state;
-      const { noteId } = this.props;
-      files.map(({ file }) =>
+      const { noteId, onComplete } = this.props;
+      files.map(({ file, src }) =>
         getUploadObservable(
           file,
           `${environment.uploadPath}/${noteId}`
         ).subscribe(
           progress => this.updateFileProgress(file, progress),
           error => console.log('file, error', file, error),
-          () => this.removeFile(file)
+          () => {
+            onComplete({ file, src });
+            this.removeFile(file);
+          }
         )
       );
     };
