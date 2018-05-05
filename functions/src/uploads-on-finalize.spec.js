@@ -1,14 +1,10 @@
-const {
-  calculateDownloadUrl,
-  recursiveDelete,
-} = require('../utilities');
+const { calculateDownloadUrl, recursiveDelete } = require('../utilities');
 const admin = require('../utilities/dev-admin');
 const environment = require('../environments/environment.dev.json');
 const UploadsOnFinalize = require('./uploads-on-finalize');
 const sampleEvent = require('../sample-events/on-finalize.json');
 const downloadURL = calculateDownloadUrl(sampleEvent);
 const db = admin.firestore();
-const notesRef = db.collection(environment.collections.notes);
 
 describe('UploadsOnFinalize', () => {
   beforeAll(done => {
@@ -38,18 +34,14 @@ describe('UploadsOnFinalize', () => {
         .catch(done.fail);
     });
 
-    it(
-      'should write the record to Firestore',
-      () => {
-        const expected = {
-          downloadURL,
-          md5Hash: sampleEvent.md5Hash,
-          name: sampleEvent.name,
-        };
+    it('should write the record to Firestore', () => {
+      const expected = {
+        downloadURL,
+        md5Hash: sampleEvent.md5Hash,
+        name: sampleEvent.name,
+      };
 
-        expect(result).toEqual(expected);
-      },
-      30 * 1000
-    );
+      expect(result).toEqual(expected);
+    });
   });
 });
