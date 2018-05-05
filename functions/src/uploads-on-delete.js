@@ -21,8 +21,17 @@ module.exports = function UploadsOnDelete({ admin, environment }) {
       */
 
       const noteRef = db.collection(collections.notes).doc(noteId);
-      const imageRef = noteRef.collection(collections.gallery).doc(md5Hash);
-      promise = imageRef.delete().then(() => imageRef);
+
+      promise = noteRef
+        .get()
+        .then(doc => doc.data())
+        .then(note => {
+          if (note.images) {
+            delete note.images[md5Hash];
+            return noteRef.update({ images: note.images });
+          }
+        })
+        .then(() => noteRef);
     }
 
     return promise;

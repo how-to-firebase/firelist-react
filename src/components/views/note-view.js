@@ -16,6 +16,7 @@ import { pick } from 'lodash';
 import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
 import FileUpload from '../file-upload';
+import Images from '../images';
 import {
   deleteEmptyValues,
   isDirty,
@@ -50,6 +51,7 @@ export class NoteView extends React.Component {
       dueDate: null,
       location: '',
       tags: '',
+      images: {},
       serverNote: null,
       loaded: false,
     };
@@ -69,7 +71,7 @@ export class NoteView extends React.Component {
 
   componentDidMount() {
     const { noteId } = this.props;
-    this.subscription = getNoteObservable(noteId).subscribe(note => {
+    this.noteSubscription = getNoteObservable(noteId).subscribe(note => {
       if (note.dueDate) {
         note.dueDate = moment(note.dueDate);
       }
@@ -79,7 +81,7 @@ export class NoteView extends React.Component {
   }
 
   componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.noteSubscription.unsubscribe();
   }
 
   handleTitle(e) {
@@ -199,6 +201,9 @@ export class NoteView extends React.Component {
               />
             </li>
             <li>{getTagsChips(this.state.tags)}</li>
+            <li>
+              <Images images={this.state.images} />
+            </li>
             <li>
               <FileUpload
                 disabled={!this.state.loaded}

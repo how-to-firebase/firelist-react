@@ -26,6 +26,4 @@ exports.uploadsOnFinalize = functions.storage
 // uploads-on-delete
 const UploadsOnDelete = require('./src/uploads-on-delete');
 const uploadsOnDelete = UploadsOnDelete({ admin, environment });
-exports.uploadsOnDelete = functions.storage
-  .object()
-  .onFinalize(uploadsOnDelete);
+exports.uploadsOnDelete = functions.storage.object().onDelete(uploadsOnDelete);

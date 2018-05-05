@@ -36,8 +36,17 @@ svg[is-active='false'] {
   stroke: var(--mdc-theme-secondary);
 }
 
+svg[highlight='true'] {
+  fill: var(--mdc-theme-secondary-light);
+}
+
 [hidden] {
   display: none !important;
+}
+
+[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 /* Hover  */

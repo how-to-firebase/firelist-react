@@ -1,7 +1,6 @@
 {
   "collections": {
-    "notes": "notes-dev",
-    "gallery": "gallery"
+    "notes": "notes-dev"
   },
   "firebase": {
     "databaseURL": "https://firelist-react.firebaseio.com"

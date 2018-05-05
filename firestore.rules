@@ -22,13 +22,7 @@ service cloud.firestore {
       return request.auth.uid == request.resource.data.owner
     }
 
-    match /notes/{noteId} { // Applies to all top-level notes
-      allow read: if isOwner()
-      allow write: if isOwner()
-      allow create: if isOwnerRequest()
-    }
-
-    match /notes/{noteId}/{document=**} { // Applies to all note sub-collections
+    match /notes/{noteId} { // Applies to all notes
       allow read: if isOwner()
       allow write: if isOwner()
       allow create: if isOwnerRequest()

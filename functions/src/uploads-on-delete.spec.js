@@ -4,15 +4,17 @@ const environment = require('../environments/environment.dev.json');
 const UploadsOnDelete = require('./uploads-on-delete');
 const sampleEvent = require('../sample-events/on-delete.json');
 const db = admin.firestore();
-const { noteId } = parseStorageEvent(sampleEvent);
-const noteRef = db.collection(environment.collections.notes).doc(noteId);
-const imageRef = noteRef
-  .collection(environment.collections.gallery)
-  .doc(sampleEvent.md5Hash);
 
 describe('UploadsOnDelete', () => {
+  const { md5Hash, noteId } = parseStorageEvent(sampleEvent);
+  const noteRef = db.collection(environment.collections.notes).doc(noteId);
+  const imageA = { exists: true };
+  const imageB = { exists: true };
+
   beforeAll(done => {
-    imageRef.set({ exists: true }).then(() => done(), done.fail);
+    noteRef
+      .set({ images: { [md5Hash]: imageA, imageB } })
+      .then(() => done(), done.fail);
   });
 
   let uploadsOnDelete, event;
@@ -27,18 +29,17 @@ describe('UploadsOnDelete', () => {
       uploadsOnDelete(event)
         .then(imageRef => imageRef.get())
         .then(doc => {
-          result = {
-            id: doc.id,
-            data: doc.data(),
-          };
+          result = doc.data();
           return done();
         })
         .catch(done.fail);
     });
 
-    it('should delete the record to Firestore', () => {
+    it('should delete the image', () => {
       const expected = {
-        id: 'Duxor3rBckijJi7QA5Lazg==',
+        images: {
+          imageB,
+        },
       };
 
       expect(result).toEqual(expected);

@@ -1,6 +1,7 @@
 export Authenticate from './authenticate';
 export Drawer from './drawer';
 export FileUpload from './file-upload';
+export Images from './images';
 export Date from './date';
 export Messaging from './messaging';
 export Note from './note';
