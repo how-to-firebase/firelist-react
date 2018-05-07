@@ -3,8 +3,8 @@ const environment = require('../environments/environment.dev.json');
 const serviceAccount = require('../service-account.json');
 
 admin.initializeApp({
+  ...environment.firebase,
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: environment.firebase.databaseURL,
 });
 
 module.exports = admin;

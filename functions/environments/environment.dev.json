@@ -3,7 +3,11 @@
     "notes": "notes-dev"
   },
   "firebase": {
-    "databaseURL": "https://firelist-react.firebaseio.com"
+    "databaseURL": "https://firelist-react.firebaseio.com",
+    "storageBucket": "firelist-react.appspot.com"
+  },
+  "googleCloud": {
+    "keyFilename": "./service-account.json" 
   },
   "paths": {
     "uploads": "firelist-react/uploads"
