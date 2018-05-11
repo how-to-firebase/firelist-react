@@ -123,7 +123,7 @@ export class NoteView extends React.Component {
   handleUpload() {
     return ({ file, src }) => {
       const images = { ...this.state.images };
-      console.log('file', file, src);
+      
       images[file.name] = {
         downloadURL: src,
         filename: file.name,

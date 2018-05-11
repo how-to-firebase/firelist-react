@@ -60,6 +60,12 @@ If you're using VSCode, try the [Firebase](https://github.com/toba/vsfire) exten
 
 Cloud Functions lags in its support for Node.js. It supports one or two LTS versions back. So we'll want to run our Cloud Functions code in a very specific version of Node.js
 
+## GCP (Google Cloud Platform) APIs
+
+You'll need to [create a service account](https://console.developers.google.com/iam-admin/serviceaccounts) that has [signBlob](https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts/signBlob) rights in order to create thumbnail images.
+
+You'll need to enable the [Identity and Access Management API](https://console.developers.google.com/apis/library/iam.googleapis.com/?project=firelist-react) to make image thumbnails.
+
 The trick is to run `yarn add node@6.14.2 --save-exact` to install v6.14.2 locally. This doesn't affect global node versions, but any script in `package.json` will run on v6.14.2.
 
 You can test this with a `package.json` script:

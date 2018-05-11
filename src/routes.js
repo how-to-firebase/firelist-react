@@ -37,12 +37,14 @@ export function Routes(state) {
 
 export default connect('currentUser', actions)(Routes);
 
-const protectedPaths = new Set(['/notes']);
+const protectedRoots = new Set(['notes', 'note']);
 function guard(View, { currentUser }) {
   return ({ location, match }) => {
     const { pathname } = location;
+    const root = pathname.split('/')[1];
 
-    if (!currentUser && protectedPaths.has(pathname)) {
+    console.log('pathname', pathname);
+    if (!currentUser && protectedRoots.has(root)) {
       return <Redirect to="/login" />;
     } else {
       return <View {...match.params} />;

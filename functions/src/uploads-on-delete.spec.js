@@ -5,15 +5,20 @@ const UploadsOnDelete = require('./uploads-on-delete');
 const sampleEvent = require('../sample-events/on-delete.json');
 const db = admin.firestore();
 
+sampleEvent.md5Hash = 'on-delete-test'
+
 describe('UploadsOnDelete', () => {
   const { md5Hash, noteId } = parseStorageEvent(sampleEvent);
-  const noteRef = db.collection(environment.collections.notes).doc(noteId);
+  const noteRef = db
+    .collection(environment.collections.notes)
+    .doc(noteId);
   const imageA = { exists: true };
   const imageB = { exists: true };
 
   beforeAll(done => {
-    noteRef
-      .set({ images: { [md5Hash]: imageA, imageB } })
+    Promise.resolve()
+      .then(() => noteRef.delete())
+      .then(() => noteRef.set({ images: { [md5Hash]: imageA, imageB } }))
       .then(() => done(), done.fail);
   });
 

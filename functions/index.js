@@ -27,3 +27,8 @@ exports.uploadsOnFinalize = functions.storage
 const UploadsOnDelete = require('./src/uploads-on-delete');
 const uploadsOnDelete = UploadsOnDelete({ admin, environment });
 exports.uploadsOnDelete = functions.storage.object().onDelete(uploadsOnDelete);
+
+// thumbnails-on-finalize
+const ThumbnailsOnFinalize = require('./src/thumbnails-on-finalize');
+const thumbnailsOnFinalize = ThumbnailsOnFinalize({ admin, environment });
+exports.thumbnailsOnFinalize = functions.storage.object().onFinalize(thumbnailsOnFinalize);

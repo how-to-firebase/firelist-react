@@ -1,6 +1,6 @@
 const { fileMatchesUploadsPath, parseStorageEvent } = require('../utilities');
 const GCS = require('@google-cloud/storage');
-const spawn = require('child-process-promise').spawn;
+const { spawn } = require('child-process-promise');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -13,7 +13,8 @@ const THUMB_MAX_WIDTH = 200;
 module.exports = function({ admin, environment }) {
   const db = admin.firestore();
   const { paths, collections, googleCloud } = environment;
-  const gcs = GCS({ keyFilename: `../${googleCloud.serviceAccount}` });
+  const keyFilename = path.resolve(`${googleCloud.keyFilename}`);
+  const gcs = GCS({ keyFilename });
 
   return event => {
     // Always return a promise from every Cloud Function
@@ -79,35 +80,32 @@ module.exports = function({ admin, environment }) {
       promise = Promise.resolve()
         .then(() => fs.existsSync(tempFolder) || mkdir(tempFolder))
         .then(() => file.download({ destination: tempOriginalFilename }))
-        .then(() => {
-          return spawn(convertCmd, [
+        .then(() =>
+          spawn(convertCmd, [
             tempOriginalFilename,
             '-thumbnail',
             `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}`,
             tempThumbnailFilename,
-          ]);
-        })
-        .then(() => {
-          return bucket.upload(tempThumbnailFilename, {
+          ])
+        )
+        .then(() =>
+          bucket.upload(tempThumbnailFilename, {
             destination: thumbnailName,
             metadata,
-          });
-        })
-        .catch(error => {
-          console.log('error', error);
-        })
-        .then(() => {
-          console.log('tempOriginalFilename', tempOriginalFilename);
-          return unlink(tempOriginalFilename);
-        })
+          })
+        )
+        .then(() => unlink(tempOriginalFilename))
         .then(() => unlink(tempThumbnailFilename))
         .then(() =>
-          thumbnail.getSignedUrl({ action: 'read', expires: '01-01-2100' })
+          thumbnail.getSignedUrl({
+            action: 'read',
+            expires: '01-01-2100',
+          })
         )
-        .then(([signedUrl]) => {
-          return db.runTransaction(t =>
+        .then(([signedUrl]) =>
+          db.runTransaction(t =>
             t.get(noteRef).then(doc => {
-              const note = doc.data();
+              const note = doc.data() || {};
 
               if (!note.images) {
                 note.images = {};
@@ -119,10 +117,11 @@ module.exports = function({ admin, environment }) {
 
               note.images[md5Hash].thumbnail = signedUrl;
 
-              return noteRef.update({ images: note.images });
+              return t.set(noteRef, { images: note.images }, { merge: true });
             })
-          );
-        });
+          )
+        )
+        .then(() => noteRef);
     }
 
     return promise;

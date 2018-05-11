@@ -6,13 +6,16 @@ const sampleEvent = require('../sample-events/on-finalize.json');
 const db = admin.firestore();
 
 describe('ThumbnailsOnFinalize', () => {
-  const { md5Hash, noteId } = parseStorageEvent(sampleEvent);
+  const fakeMd5Hash = 'thumbnails-on-finalize';
+  const { noteId } = parseStorageEvent(sampleEvent);
   const noteRef = db.collection(environment.collections.notes).doc(noteId);
 
   let thumbnailsOnFinalize, event;
   beforeEach(() => {
     event = {
       ...sampleEvent,
+      metadata: {},
+      md5Hash: fakeMd5Hash,
       name:
         'test/uploads/5ccM4M3aaS3IolEnAKWB/chrisesplin-headshot-6-600x600.jpg',
     };
@@ -29,23 +32,19 @@ describe('ThumbnailsOnFinalize', () => {
   describe('functionality', () => {
     let result;
     beforeEach(done => {
-      thumbnailsOnFinalize(event)
-        .then(noteRef => noteRef.get())
+      Promise.resolve()
+        .then(() => noteRef.delete())
+        .then(() => thumbnailsOnFinalize(event))
+        .then(() => noteRef.get())
         .then(doc => {
           result = doc.data();
           return done();
         })
         .catch(done.fail);
-    });
+    }, 10 * 1000);
 
     it('should create the thumbnail', () => {
-      const expected = {
-        images: {
-          test: true,
-        },
-      };
-
-      expect(result).toEqual(expected);
+      expect(typeof result.images[fakeMd5Hash].thumbnail).toEqual('string');
     });
   });
 });

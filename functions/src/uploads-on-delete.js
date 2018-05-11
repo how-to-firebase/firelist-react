@@ -28,6 +28,7 @@ module.exports = function UploadsOnDelete({ admin, environment }) {
         .then(note => {
           if (note.images) {
             delete note.images[md5Hash];
+
             return noteRef.update({ images: note.images });
           }
         })
