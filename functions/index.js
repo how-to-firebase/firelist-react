@@ -31,9 +31,20 @@ exports.uploadsOnDelete = functions.storage.object().onDelete(uploadsOnDelete);
 // thumbnails-on-finalize
 const ThumbnailsOnFinalize = require('./src/thumbnails-on-finalize');
 const thumbnailsOnFinalize = ThumbnailsOnFinalize({ admin, environment });
-exports.thumbnailsOnFinalize = functions.storage.object().onFinalize(thumbnailsOnFinalize);
+exports.thumbnailsOnFinalize = functions.storage
+  .object()
+  .onFinalize(thumbnailsOnFinalize);
 
 // thumbnails-on-delete
 const ThumbnailsOnDelete = require('./src/thumbnails-on-delete');
 const thumbnailsOnDelete = ThumbnailsOnDelete({ admin, environment });
-exports.thumbnailsOnDelete = functions.storage.object().onDelete(thumbnailsOnDelete);
+exports.thumbnailsOnDelete = functions.storage
+  .object()
+  .onDelete(thumbnailsOnDelete);
+
+// user-tokens-on-write
+const UserTokensOnWrite = require('./src/user-tokens-on-write');
+const userTokensOnWrite = UserTokensOnWrite({ admin, environment });
+exports.userTokensOnWrite = functions.database
+  .ref('{environment}/userWriteable/userTokens/{uid}')
+  .onDelete(userTokensOnWrite);

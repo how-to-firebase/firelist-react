@@ -1,13 +1,14 @@
 {
   "collections": {
-    "notes": "notes-dev"
+    "notes": "notes-dev",
+    "users": "users"
   },
   "firebase": {
     "databaseURL": "https://firelist-react.firebaseio.com",
     "storageBucket": "firelist-react.appspot.com"
   },
   "googleCloud": {
-    "keyFilename": "./service-account.json" 
+    "keyFilename": "./service-account.json"
   },
   "paths": {
     "uploads": "firelist-react/uploads"

@@ -1,6 +1,7 @@
 {
   "collections": {
-    "notes": "notes"
+    "notes": "notes",
+    "users": "users"
   },
   "firebase": {
     "databaseURL": "https://firelist-react.firebaseio.com",
