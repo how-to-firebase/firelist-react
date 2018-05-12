@@ -2,7 +2,7 @@ const { parseStorageEvent } = require('../utilities');
 const admin = require('../utilities/dev-admin');
 const environment = require('../environments/environment.dev.json');
 const UploadsOnFinalize = require('./uploads-on-finalize');
-const sampleEvent = require('../sample-events/on-finalize.json');
+const sampleEvent = require('../sample-events/upload-on-finalize.json');
 const db = admin.firestore();
 
 describe('UploadsOnFinalize', () => {

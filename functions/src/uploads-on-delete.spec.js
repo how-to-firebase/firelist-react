@@ -2,7 +2,7 @@ const { parseStorageEvent } = require('../utilities');
 const admin = require('../utilities/dev-admin');
 const environment = require('../environments/environment.dev.json');
 const UploadsOnDelete = require('./uploads-on-delete');
-const sampleEvent = require('../sample-events/on-delete.json');
+const sampleEvent = require('../sample-events/upload-on-delete.json');
 const db = admin.firestore();
 
 sampleEvent.md5Hash = 'on-delete-test'

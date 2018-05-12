@@ -1,0 +1,23 @@
+{
+  "bucket": "firelist-react.appspot.com",
+  "contentType": "image/jpeg",
+  "crc32c": "2yRQIw==",
+  "etag": "CMCI/s+dgNsCEAE=",
+  "generation": "1526130091721792",
+  "id":
+    "firelist-react.appspot.com/firelist-react/thumbnails/I6JVYYSttO1HouWOjIMF/200x200/chrisesplin-headshot-2-600x600.jpg/1526130091721792",
+  "kind": "storage#object",
+  "md5Hash": "USc9DY4SaAwurMRyWf7c9g==",
+  "mediaLink":
+    "https://www.googleapis.com/download/storage/v1/b/firelist-react.appspot.com/o/firelist-react%2Fthumbnails%2FI6JVYYSttO1HouWOjIMF%2F200x200%2Fchrisesplin-headshot-2-600x600.jpg?generation=1526130091721792&alt=media",
+  "metageneration": "1",
+  "name":
+    "firelist-react/thumbnails/I6JVYYSttO1HouWOjIMF/200x200/chrisesplin-headshot-2-600x600.jpg",
+  "selfLink":
+    "https://www.googleapis.com/storage/v1/b/firelist-react.appspot.com/o/firelist-react%2Fthumbnails%2FI6JVYYSttO1HouWOjIMF%2F200x200%2Fchrisesplin-headshot-2-600x600.jpg",
+  "size": "37758",
+  "storageClass": "STANDARD",
+  "timeCreated": "2018-05-12T13:01:31.674Z",
+  "timeStorageClassUpdated": "2018-05-12T13:01:31.674Z",
+  "updated": "2018-05-12T13:01:31.674Z"
+}

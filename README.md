@@ -60,12 +60,6 @@ If you're using VSCode, try the [Firebase](https://github.com/toba/vsfire) exten
 
 Cloud Functions lags in its support for Node.js. It supports one or two LTS versions back. So we'll want to run our Cloud Functions code in a very specific version of Node.js
 
-## GCP (Google Cloud Platform) APIs
-
-You'll need to [create a service account](https://console.developers.google.com/iam-admin/serviceaccounts) that has [signBlob](https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts/signBlob) rights in order to create thumbnail images.
-
-You'll need to enable the [Identity and Access Management API](https://console.developers.google.com/apis/library/iam.googleapis.com/?project=firelist-react) to make image thumbnails.
-
 The trick is to run `yarn add node@6.14.2 --save-exact` to install v6.14.2 locally. This doesn't affect global node versions, but any script in `package.json` will run on v6.14.2.
 
 You can test this with a `package.json` script:
@@ -79,3 +73,13 @@ You can test this with a `package.json` script:
 The run `yarn v`. You should see `v6.14.2` in the output.
 
 Now our tests will ensure compatibility with Cloud Functions!
+
+## GCP (Google Cloud Platform) APIs
+
+You'll need to [create a service account](https://console.developers.google.com/iam-admin/serviceaccounts) that has [signBlob](https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts/signBlob) rights in order to create thumbnail images.
+
+You'll need to enable the [Identity and Access Management API](https://console.developers.google.com/apis/library/iam.googleapis.com/?project=firelist-react) to make image thumbnails.
+
+While developing this application I ran into a nasty error where I couldn't upload files to Firebase Storage any longer. I solved the problem by upgrading my Firebase project to the Blaze plan and explicitly granting Storage Admin rights to `firebase-storage@system.gserviceaccount.com` as described on [this Stackoverflow answer](https://stackoverflow.com/questions/50292353/firebase-storage-security-rules-400-error-issue-permission-denied-could-not-ac).
+
+I also ran into trouble with `iam.serviceAccounts.signBlob` permissions. That was resolved by adding the "Cloud Functions Service Agent" role to my `firelist-react@appspot.gserviceaccount.com` as recommended on [this Stackoverflow answer](https://github.com/googleapis/nodejs-storage/issues/150).
