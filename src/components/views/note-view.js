@@ -4,6 +4,7 @@ import { connect } from 'unistore/react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button } from 'rmwc/Button';
+import { Elevation } from 'rmwc/Elevation';
 import { FormField } from 'rmwc/FormField';
 import { TextField } from 'rmwc/TextField';
 import { ChipSet, Chip } from 'rmwc/Chip';
@@ -17,6 +18,7 @@ import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
 import FileUpload from '../file-upload';
 import Images from '../images';
+import Todos from '../todos';
 import {
   deleteEmptyValues,
   isDirty,
@@ -25,6 +27,15 @@ import {
 } from '../../utilities';
 
 const css = {
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 'calc(100% - 2rem)',
+  },
+  elevation: {
+    margin: '1rem 0',
+    padding: '1rem',
+  },
   buttons: {
     display: 'flex',
     flexDirection: 'row-reverse',
@@ -52,6 +63,7 @@ export class NoteView extends React.Component {
       location: '',
       tags: '',
       images: {},
+      todos: [],
       serverNote: null,
       loaded: false,
     };
@@ -123,7 +135,7 @@ export class NoteView extends React.Component {
   handleUpload() {
     return ({ file, src }) => {
       const images = { ...this.state.images };
-      
+
       images[file.name] = {
         downloadURL: src,
         filename: file.name,
@@ -151,7 +163,9 @@ export class NoteView extends React.Component {
   }
 
   render() {
-    const { redirect } = this.state;
+    const { redirect, images } = this.state;
+    const imagesCount = Object.keys(images).length;
+
     return redirect ? (
       <Redirect to="/notes" />
     ) : (
@@ -160,85 +174,96 @@ export class NoteView extends React.Component {
         onKeyPress={this.handleKeyPress()}
       >
         <FormField>
-          <label style={css.hidden}>edit {this.state.title}</label>
-          <ul>
-            <li>
-              <TextField
-                label="Title"
-                value={this.state.title}
-                onChange={this.genericHandler('title')}
-                ref={ref => (this.title = ref)}
-                autoFocus
-              />
-            </li>
-            <li>
-              <TextField
-                label="Description"
-                value={this.state.description}
-                onChange={this.genericHandler('description')}
-              />
-            </li>
-            <li>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <label>Due Date</label>
-                <Button
-                  onClick={this.removeDueDate()}
-                  disabled={!this.state.dueDate}
-                >
-                  Remove Due Date
-                </Button>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <DayPickerSingleDateController
-                  date={this.state.dueDate}
-                  onDateChange={this.handleDueDateChange()}
-                  focused={this.state.focused}
-                  onFocusChange={this.handleDueDateFocus()}
-                  numberOfMonths={1}
+          <div style={css.wrapper}>
+            <label style={css.hidden}>edit {this.state.title}</label>
+            <ul>
+              <li>
+                <TextField
+                  label="Title"
+                  value={this.state.title}
+                  onChange={this.genericHandler('title')}
+                  ref={ref => (this.title = ref)}
+                  autoFocus
                 />
-              </div>
-            </li>
-            <li>
-              <TextField
-                label="Location"
-                value={this.state.location}
-                onChange={this.genericHandler('location')}
-              />
-            </li>
-            <li>
-              <TextField
-                label="Tags"
-                value={this.state.tags}
-                onChange={this.genericHandler('tags')}
-              />
-            </li>
-            <li>{getTagsChips(this.state.tags)}</li>
-            <li>
-              <Images images={this.state.images} />
-            </li>
-            <li>
+              </li>
+              <li>
+                <TextField
+                  label="Description"
+                  value={this.state.description}
+                  onChange={this.genericHandler('description')}
+                />
+              </li>
+              <li>
+                <div
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
+                  <label>Due Date</label>
+                  <Button
+                    onClick={this.removeDueDate()}
+                    disabled={!this.state.dueDate}
+                  >
+                    Remove Due Date
+                  </Button>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <DayPickerSingleDateController
+                    date={this.state.dueDate}
+                    onDateChange={this.handleDueDateChange()}
+                    focused={this.state.focused}
+                    onFocusChange={this.handleDueDateFocus()}
+                    numberOfMonths={1}
+                  />
+                </div>
+              </li>
+              <li>
+                <TextField
+                  label="Location"
+                  value={this.state.location}
+                  onChange={this.genericHandler('location')}
+                />
+              </li>
+              <li>
+                <TextField
+                  label="Tags"
+                  value={this.state.tags}
+                  onChange={this.genericHandler('tags')}
+                />
+              </li>
+              <li>{getTagsChips(this.state.tags)}</li>
+              <li style={css.buttons}>
+                <Button
+                  raised
+                  style={css.button}
+                  disabled={!this.isValid || !this.isDirty}
+                >
+                  save
+                </Button>
+                <Link to="/notes" style={css.button} tabIndex="-1">
+                  <Button ripple={false}>back</Button>
+                </Link>
+                <Button ripple={false} onClick={this.removeNote()}>
+                  delete
+                </Button>
+              </li>
+            </ul>
+            {imagesCount && (
+              <Elevation z="1" transition style={css.elevation}>
+                <Images images={this.state.images} />
+              </Elevation>
+            )}
+            <Elevation z="0" transition style={css.elevation}>
               <FileUpload
                 disabled={!this.state.loaded}
                 noteId={this.state.__id}
                 onComplete={this.handleUpload()}
               />
-            </li>
-            <li style={css.buttons}>
-              <Button
-                raised
-                style={css.button}
-                disabled={!this.isValid || !this.isDirty}
-              >
-                save
-              </Button>
-              <Link to="/notes" style={css.button} tabIndex="-1">
-                <Button ripple={false}>back</Button>
-              </Link>
-              <Button ripple={false} onClick={this.removeNote()}>
-                delete
-              </Button>
-            </li>
-          </ul>
+            </Elevation>
+            <ul>
+              <li>
+                <Todos todos={this.state.todos} />
+              </li>
+            </ul>
+          </div>
         </FormField>
       </form>
     );

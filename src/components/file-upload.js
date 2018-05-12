@@ -11,6 +11,11 @@ const css = {
   },
   fileItem: {
     display: 'flex',
+    flexWrap: 'wrap',
+  },
+  buttonWrapper: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 };
 
@@ -83,12 +88,12 @@ export class FileUpload extends React.Component {
       <div>
         <ul>
           <li>
-            <label htmlFor="file-upload">
+            <label htmlFor="file-upload" style={css.buttonWrapper}>
               <Button
                 onClick={this.clickFileInput()}
                 disabled={this.props.disabled}
               >
-                Select Images
+                Select Images to Upload
               </Button>
             </label>
             <input
@@ -104,7 +109,7 @@ export class FileUpload extends React.Component {
             {this.state.files.map((file, i) => <File key={i} {...file} />)}
           </li>
           {this.state.files.length ? (
-            <li>
+            <li style={css.buttonWrapper}>
               <Button onClick={this.startUpload()}>Upload</Button>
             </li>
           ) : null}
@@ -124,6 +129,7 @@ const fileCss = {
     alignItems: 'center',
     height: '275px',
     width: '250px',
+    margin: '1rem 0',
   },
   img: {
     maxHeight: 'calc(100% - 25px)',

@@ -111,6 +111,8 @@ a {
 
 /* MDC form field */
 .mdc-form-field {
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
