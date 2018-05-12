@@ -68,7 +68,7 @@ class Image extends React.Component {
   }
 
   render() {
-    const { downloadURL, filename, name } = this.props;
+    const { downloadURL, filename, name, thumbnail } = this.props;
     return (
       <div style={imageCss.wrapper} disabled={this.state.disabled}>
         {name && (
@@ -79,7 +79,7 @@ class Image extends React.Component {
             <Delete highlight="true" />
           </IconToggle>
         )}
-        <img src={downloadURL} alt={filename} style={imageCss.img} />
+        <img src={thumbnail || downloadURL} alt={filename} style={imageCss.img} />
         <span style={imageCss.filename}>{filename}</span>
       </div>
     );

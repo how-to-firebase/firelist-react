@@ -7,8 +7,9 @@ const fs = require('fs');
 
 const mkdir = promisify(fs.mkdir);
 const unlink = promisify(fs.unlink);
-const THUMB_MAX_HEIGHT = 200;
-const THUMB_MAX_WIDTH = 200;
+const THUMB_MAX_HEIGHT = 250;
+const THUMB_MAX_WIDTH = 250;
+const widthXHeight = `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}`;
 
 module.exports = function({ admin, environment }) {
   const db = admin.firestore();
@@ -35,7 +36,7 @@ module.exports = function({ admin, environment }) {
         root,
         'thumbnails',
         noteId,
-        '200x200',
+        widthXHeight,
         filename,
       ].join('/');
       const tempFolder = path.join(os.tmpdir(), noteId);
@@ -84,7 +85,7 @@ module.exports = function({ admin, environment }) {
           spawn(convertCmd, [
             tempOriginalFilename,
             '-thumbnail',
-            `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}`,
+            widthXHeight,
             tempThumbnailFilename,
           ])
         )
