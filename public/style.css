@@ -75,9 +75,14 @@ svg[highlight='true'] {
   height: 4px;
 }
 
+.progress-bar.background {
+  background: var(--mdc-theme-secondary-light);
+}
+
 .progress-bar > div {
   background: var(--mdc-theme-secondary);
   height: 100%;
+  transition: width 500ms ease-in;
 }
 
 /* MDC button */

@@ -6,7 +6,7 @@ export Date from './date';
 export Messaging from './messaging';
 export Note from './note';
 export NotesList from './notes-list';
-export Todos from './todos';
+export Tasks from './tasks';
 export Toolbar from './toolbar';
 
 export LandingView from './views/landing-view';
