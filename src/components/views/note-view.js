@@ -247,11 +247,11 @@ export class NoteView extends React.Component {
                   </Button>
                 </li>
               </ul>
-              {imagesCount && (
+              {imagesCount ? (
                 <Elevation z="1" transition style={css.elevation}>
                   <Images images={this.state.images} />
                 </Elevation>
-              )}
+              ) : null}
               <Elevation z="0" transition style={css.elevation}>
                 <FileUpload
                   disabled={!this.state.loaded}

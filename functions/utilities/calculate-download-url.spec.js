@@ -1,5 +1,5 @@
 const calculateDownloadUrl = require('./calculate-download-url');
-const sampleEvent = require('../sample-events/upload-on-finalize.json');
+const sampleEvent = require('../sample-data/upload-on-finalize.json');
 
 describe('calculateDownloadURL', () => {
   it('should return a valid downloadURL', () => {

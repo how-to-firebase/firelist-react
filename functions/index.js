@@ -4,6 +4,15 @@ const functions = require('firebase-functions');
 
 admin.initializeApp();
 
+const {
+  ThumbnailsOnFinalize,
+  ThumbnailsOnDelete,
+  UploadsOnFinalize,
+  UploadsOnDelete,
+  UserTokensOnCreate,
+} = require('./src');
+const context = { admin, environment };
+
 /* 
   CHALLENGE Cloud Functions
   - Read and understand the following code carefully.
@@ -17,34 +26,29 @@ admin.initializeApp();
 */
 
 // uploads-on-finalize
-const UploadsOnFinalize = require('./src/uploads-on-finalize');
-const uploadsOnFinalize = UploadsOnFinalize({ admin, environment });
+const uploadsOnFinalize = UploadsOnFinalize(context);
 exports.uploadsOnFinalize = functions.storage
   .object()
   .onFinalize(uploadsOnFinalize);
 
 // uploads-on-delete
-const UploadsOnDelete = require('./src/uploads-on-delete');
-const uploadsOnDelete = UploadsOnDelete({ admin, environment });
+const uploadsOnDelete = UploadsOnDelete(context);
 exports.uploadsOnDelete = functions.storage.object().onDelete(uploadsOnDelete);
 
 // thumbnails-on-finalize
-const ThumbnailsOnFinalize = require('./src/thumbnails-on-finalize');
-const thumbnailsOnFinalize = ThumbnailsOnFinalize({ admin, environment });
+const thumbnailsOnFinalize = ThumbnailsOnFinalize(context);
 exports.thumbnailsOnFinalize = functions.storage
   .object()
   .onFinalize(thumbnailsOnFinalize);
 
 // thumbnails-on-delete
-const ThumbnailsOnDelete = require('./src/thumbnails-on-delete');
-const thumbnailsOnDelete = ThumbnailsOnDelete({ admin, environment });
+const thumbnailsOnDelete = ThumbnailsOnDelete(context);
 exports.thumbnailsOnDelete = functions.storage
   .object()
   .onDelete(thumbnailsOnDelete);
 
-// user-tokens-on-write
-const UserTokensOnWrite = require('./src/user-tokens-on-write');
-const userTokensOnWrite = UserTokensOnWrite({ admin, environment });
-exports.userTokensOnWrite = functions.database
+// user-tokens-on-create
+const userTokensOnCreate = UserTokensOnCreate(context);
+exports.userTokensOnCreate = functions.database
   .ref('{environment}/userWriteable/userTokens/{uid}')
-  .onDelete(userTokensOnWrite);
+  .onCreate(userTokensOnCreate);

@@ -1,0 +1,22 @@
+{
+  "iss": "https://securetoken.google.com/firelist-react",
+  "name": "Christopher Esplin",
+  "picture":
+    "https://lh6.googleusercontent.com/-BF6tESZq3i4/AAAAAAAAAAI/AAAAAAAHtLU/v47Dji36aC0/photo.jpg",
+  "aud": "firelist-react",
+  "auth_time": 1526140380,
+  "user_id": "RwrzpZpoUuM0q5qPxKIylOudzVi2",
+  "sub": "RwrzpZpoUuM0q5qPxKIylOudzVi2",
+  "iat": 1526294187,
+  "exp": 1526297787,
+  "email": "christopher.esplin@gmail.com",
+  "email_verified": true,
+  "firebase": {
+    "identities": {
+      "google.com": ["107273186587392813457"],
+      "email": ["christopher.esplin@gmail.com"]
+    },
+    "sign_in_provider": "google.com"
+  },
+  "uid": "RwrzpZpoUuM0q5qPxKIylOudzVi2"
+}

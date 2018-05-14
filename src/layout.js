@@ -6,10 +6,12 @@ import { actions } from './store';
 import { Drawer, Messaging, Toolbar } from './components';
 import Routes from './routes';
 
+import { setUserTokens } from './database';
+
 export class InnerApp extends React.Component {
-  constructor () {
+  constructor() {
     super();
-    this.firebase = window.firebase
+    this.firebase = window.firebase;
   }
   componentDidMount() {
     const { history, setLocation } = this.props;
@@ -29,9 +31,11 @@ export class InnerApp extends React.Component {
       - Register an onAuthStateChanged callback
       - Call setCurrentUser with the updated currentUser
     */
-    const { setCurrentUser } = this.props;
+    const { environment, setCurrentUser } = this.props;
     this.firebase.auth().onAuthStateChanged(currentUser => {
       setCurrentUser(currentUser);
+
+      currentUser && setUserTokens({ environment, currentUser });
     });
   }
 
@@ -47,4 +51,4 @@ export class InnerApp extends React.Component {
   }
 }
 
-export default withRouter(connect('', actions)(InnerApp));
+export default withRouter(connect('environment', actions)(InnerApp));
