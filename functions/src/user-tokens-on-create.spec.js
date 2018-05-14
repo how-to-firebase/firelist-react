@@ -60,7 +60,7 @@ describe('userTokensOnCreate', () => {
       environment: context.params.environment,
       messagingToken: userTokens.messagingToken,
     });
-    expect(set).toHaveBeenCalledWith(user);
+    expect(set).toHaveBeenCalledWith(user, { merge: true });
   });
 
   it('should have removed the ref', () => {

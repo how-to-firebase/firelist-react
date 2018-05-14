@@ -26,7 +26,7 @@ module.exports = function({ admin, environment }) {
       .then(decodedToken => {
         const user = getUserObject(decodedToken, environment, messagingToken);
 
-        return userRef.set(user);
+        return userRef.set(user, { merge: true });
       })
       .then(() => snapshot.ref.remove());
   };

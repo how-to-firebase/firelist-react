@@ -8,7 +8,8 @@ const currentUser =
   (typeof firebase != 'undefined' &&
     firebase.apps.length &&
     firebase.auth().currentUser) ||
-  null;
+  undefined;
+
 const defaultState = {
   currentUser,
   drawerOpen: false,

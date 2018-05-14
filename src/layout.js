@@ -31,6 +31,7 @@ export class InnerApp extends React.Component {
       - Register an onAuthStateChanged callback
       - Call setCurrentUser with the updated currentUser
     */
+   
     const { environment, setCurrentUser } = this.props;
     this.firebase.auth().onAuthStateChanged(currentUser => {
       setCurrentUser(currentUser);

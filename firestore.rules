@@ -7,7 +7,7 @@ service cloud.firestore {
     // read, write: request.auth.uid must equal uid
 
     match /users/{uid} {
-      allow read, write: if request.auth.uid == uid
+      allow read: if request.auth.uid == uid
     }
 
     // See https://firebase.google.com/docs/firestore/security/rules-conditions#custom_functions

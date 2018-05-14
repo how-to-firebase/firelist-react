@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'unistore/react';
 import * as actions from '../store/actions';
 
+import { getToken } from "../messaging";
+
 export class Messaging extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,6 @@ export class Messaging extends Component {
       - Call getToken
     */
     this.unlisten = this.messaging.onTokenRefresh(() => this.getToken());
-    this.getToken();
   }
 
   componentWillUnmount() {
@@ -28,15 +29,8 @@ export class Messaging extends Component {
   }
 
   async getToken() {
-    /* 
-      CHALLENGE Messaging
-      - Get the messaging token
-      - HINT: use the await keyword to wait for the token asynchornously.
-      - Call setMessagingToken with the new token
-    */
-    const { setMessagingToken } = this.props;
-    const token = await this.messaging.getToken();
-    setMessagingToken(token);
+    const token = await getToken(this.props);
+    this.props.setMessagingToken(token);
   }
 
   render() {
@@ -44,7 +38,7 @@ export class Messaging extends Component {
   }
 }
 
-export default connect('', actions)(Messaging);
+export default connect('currentUser,environment', actions)(Messaging);
 
 async function registerServiceWorker(messaging) {
   if ('serviceWorker' in navigator) {

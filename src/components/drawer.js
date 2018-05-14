@@ -3,7 +3,7 @@ import { connect } from 'unistore/react';
 import { NavLink } from 'react-router-dom';
 import { Drawer, DrawerHeader, DrawerContent } from 'rmwc/Drawer';
 import { actions } from '../store';
-import { ViewList, Bolt, Dashboard } from '../svg';
+import { AccountBox, Bolt, Dashboard, ViewList } from '../svg';
 
 import { Button } from 'rmwc/Button';
 
@@ -53,6 +53,7 @@ export default connect('drawerOpen,location', actions)(
 const listItems = [
   { path: '/', text: 'Landing Page', icon: <Dashboard /> },
   { path: '/notes', text: 'Notes', icon: <ViewList /> },
+  { path: '/account', text: 'Account', icon: <AccountBox /> },
 ];
 function getListItems({ pathname } = { path: null }) {
   return listItems.map(({ icon, path, text }) => {

@@ -17,6 +17,7 @@ import { pick } from 'lodash';
 import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
 import FileUpload from '../file-upload';
+import Loading from '../loading';
 import Images from '../images';
 import Tasks from '../tasks';
 import {
@@ -165,106 +166,125 @@ export class NoteView extends React.Component {
   render() {
     const { redirect, images } = this.state;
     const imagesCount = Object.keys(images).length;
+    const shouldRedirect = !!redirect;
+    const isLoading = !this.state.__id;
 
-    return redirect ? (
-      <Redirect to="/notes" />
-    ) : (
-      <div>
-        <form
-          onSubmit={this.submit.bind(this)}
-          onKeyPress={this.handleKeyPress()}
-        >
-          <FormField>
-            <div style={css.wrapper}>
-              <label style={css.hidden}>edit {this.state.title}</label>
-              <ul>
-                <li>
-                  <TextField
-                    label="Title"
-                    value={this.state.title}
-                    onChange={this.genericHandler('title')}
-                    ref={ref => (this.title = ref)}
-                    autoFocus
-                  />
-                </li>
-                <li>
-                  <TextField
-                    label="Description"
-                    value={this.state.description}
-                    onChange={this.genericHandler('description')}
-                  />
-                </li>
-                <li>
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <label>Due Date</label>
-                    <Button
-                      onClick={this.removeDueDate()}
-                      disabled={!this.state.dueDate}
-                    >
-                      Remove Due Date
-                    </Button>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <DayPickerSingleDateController
-                      date={this.state.dueDate}
-                      onDateChange={this.handleDueDateChange()}
-                      focused={this.state.focused}
-                      onFocusChange={this.handleDueDateFocus()}
-                      numberOfMonths={1}
+    let el;
+    switch (true) {
+      case shouldRedirect:
+        el = <Redirect to="/notes" />;
+        break;
+
+      case isLoading:
+        el = <Loading />;
+        break;
+
+      default:
+        el = (
+          <div>
+            <form
+              onSubmit={this.submit.bind(this)}
+              onKeyPress={this.handleKeyPress()}
+            >
+              <FormField>
+                <div style={css.wrapper}>
+                  <label style={css.hidden}>edit {this.state.title}</label>
+                  <ul>
+                    <li>
+                      <TextField
+                        label="Title"
+                        value={this.state.title}
+                        onChange={this.genericHandler('title')}
+                        ref={ref => (this.title = ref)}
+                        autoFocus
+                      />
+                    </li>
+                    <li>
+                      <TextField
+                        label="Description"
+                        value={this.state.description}
+                        onChange={this.genericHandler('description')}
+                      />
+                    </li>
+                    <li>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <label>Due Date</label>
+                        <Button
+                          onClick={this.removeDueDate()}
+                          disabled={!this.state.dueDate}
+                        >
+                          Remove Due Date
+                        </Button>
+                      </div>
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <DayPickerSingleDateController
+                          date={this.state.dueDate}
+                          onDateChange={this.handleDueDateChange()}
+                          focused={this.state.focused}
+                          onFocusChange={this.handleDueDateFocus()}
+                          numberOfMonths={1}
+                        />
+                      </div>
+                    </li>
+                    <li>
+                      <TextField
+                        label="Location"
+                        value={this.state.location}
+                        onChange={this.genericHandler('location')}
+                      />
+                    </li>
+                    <li>
+                      <TextField
+                        label="Tags"
+                        value={this.state.tags}
+                        onChange={this.genericHandler('tags')}
+                      />
+                    </li>
+                    <li>{getTagsChips(this.state.tags)}</li>
+                    <li style={css.buttons}>
+                      <Button
+                        raised
+                        style={css.button}
+                        disabled={!this.isValid || !this.isDirty}
+                      >
+                        save
+                      </Button>
+                      <Link to="/notes" style={css.button} tabIndex="-1">
+                        <Button ripple={false}>back</Button>
+                      </Link>
+                      <Button ripple={false} onClick={this.removeNote()}>
+                        delete
+                      </Button>
+                    </li>
+                  </ul>
+                  {imagesCount ? (
+                    <Elevation z="1" transition style={css.elevation}>
+                      <Images images={this.state.images} />
+                    </Elevation>
+                  ) : null}
+                  <Elevation z="0" transition style={css.elevation}>
+                    <FileUpload
+                      disabled={!this.state.loaded}
+                      noteId={this.state.__id}
+                      onComplete={this.handleUpload()}
                     />
-                  </div>
-                </li>
-                <li>
-                  <TextField
-                    label="Location"
-                    value={this.state.location}
-                    onChange={this.genericHandler('location')}
-                  />
-                </li>
-                <li>
-                  <TextField
-                    label="Tags"
-                    value={this.state.tags}
-                    onChange={this.genericHandler('tags')}
-                  />
-                </li>
-                <li>{getTagsChips(this.state.tags)}</li>
-                <li style={css.buttons}>
-                  <Button
-                    raised
-                    style={css.button}
-                    disabled={!this.isValid || !this.isDirty}
-                  >
-                    save
-                  </Button>
-                  <Link to="/notes" style={css.button} tabIndex="-1">
-                    <Button ripple={false}>back</Button>
-                  </Link>
-                  <Button ripple={false} onClick={this.removeNote()}>
-                    delete
-                  </Button>
-                </li>
-              </ul>
-              {imagesCount ? (
-                <Elevation z="1" transition style={css.elevation}>
-                  <Images images={this.state.images} />
-                </Elevation>
-              ) : null}
-              <Elevation z="0" transition style={css.elevation}>
-                <FileUpload
-                  disabled={!this.state.loaded}
-                  noteId={this.state.__id}
-                  onComplete={this.handleUpload()}
-                />
-              </Elevation>
-            </div>
-          </FormField>
-        </form>
-        <Tasks noteId={this.state.__id} tasks={this.state.tasks} />
-      </div>
-    );
+                  </Elevation>
+                </div>
+              </FormField>
+            </form>
+            <Tasks noteId={this.state.__id} tasks={this.state.tasks} />
+          </div>
+        );
+    }
+
+    return el;
   }
 }
 
