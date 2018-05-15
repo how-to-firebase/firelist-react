@@ -4,6 +4,11 @@ module.exports = function({ admin, environment }) {
   const { collections } = environment;
   const usersCollection = admin.firestore().collection(collections.users);
 
+  /* 
+    CHALLENGE Cloud Functions
+    - Try to understand what's going on here :)
+  */
+
   return (change, context) => {
     const newNote = change.after.data();
     const oldNote = change.before.data();
@@ -77,6 +82,11 @@ function formatDoc(doc) {
 function sendMessages(users, data, admin) {
   const messaging = admin.messaging();
   const usersWithTokens = users.filter(user => !!user.messagingToken);
+
+  /* 
+    CHALLENGE Messaging
+    - Try to understand what's going on here :)
+  */
 
   return Promise.all(
     usersWithTokens.map(({ email, messagingToken: token }) =>

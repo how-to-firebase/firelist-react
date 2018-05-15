@@ -28,9 +28,20 @@ const iconUrl =
 messaging.setBackgroundMessageHandler(payload =>
   self.registration.showNotification('Firelist', {
     body: payload.data.message,
+    data: payload.data,
     icon: iconUrl,
   })
 );
+
+self.addEventListener('notificationclick', function(e) {
+  const { noteId } = e.notification.data;
+
+  e.notification.close();
+
+  if (noteId) {
+    e.waitUntil(clients.openWindow(`/note/${noteId}`));
+  }
+});
 
 if (!environment.isDevelopment) {
   /* 
