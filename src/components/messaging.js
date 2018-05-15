@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'unistore/react';
 import * as actions from '../store/actions';
 
-import { getToken } from "../messaging";
+import { getToken } from '../messaging';
 
 export class Messaging extends Component {
   constructor(props) {
@@ -11,21 +11,29 @@ export class Messaging extends Component {
 
     this.messaging = firebase.messaging();
   }
-  
+
   async componentDidMount() {
     await registerServiceWorker(this.messaging);
-    
+
     /* 
       CHALLENGE Messaging
       - Listen to for refreshed messaging tokens and call getToken
-      - Assign the `unlisten` function to this.unlisten
+      - Assign the `unlisten` function to this.unlistenOnTokenRefresh
       - Call getToken
     */
-    this.unlisten = this.messaging.onTokenRefresh(() => this.getToken());
+    this.unlistenOnTokenRefresh = this.messaging.onTokenRefresh(() =>
+      this.getToken()
+    );
+
+    this.unlistenOnMessage = this.messaging.onMessage(payload => {
+      const { message, noteId, title } = payload.data;
+      console.log('onMessage payload', message, noteId, title);
+    });
   }
 
   componentWillUnmount() {
-    this.unlisten && this.unlisten();
+    this.unlistenOnTokenRefresh && this.unlistenOnTokenRefresh();
+    this.unlistenOnMessage && this.unlistenOnMessage();
   }
 
   async getToken() {

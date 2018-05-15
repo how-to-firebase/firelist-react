@@ -33,13 +33,22 @@ messaging.setBackgroundMessageHandler(payload =>
   })
 );
 
+/* 
+  CHALLENGE Messaging
+  - See https://developers.google.com/web/fundamentals/codelabs/push-notifications/
+  - Handle notificationclick events
+  - Close the notification
+  - Open noteUrl
+  - Hint: Look for the noteId on event.notification.data
+*/
 self.addEventListener('notificationclick', function(e) {
   const { noteId } = e.notification.data;
+  const noteUrl = `/note/${noteId}`;
 
   e.notification.close();
 
   if (noteId) {
-    e.waitUntil(clients.openWindow(`/note/${noteId}`));
+    e.waitUntil(clients.openWindow(noteUrl));
   }
 });
 
