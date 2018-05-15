@@ -4,4 +4,5 @@ module.exports = {
   omitEmptyValues: require('./omit-empty-values'),
   parseStorageEvent: require('./parse-storage-event'),
   recursiveDelete: require('./recursive-delete'),
+  slugifyEmail: require('./slugify-email'),
 };

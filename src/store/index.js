@@ -11,6 +11,7 @@ const currentUser =
   undefined;
 
 const defaultState = {
+  collaborativeNotes: [],
   currentUser,
   drawerOpen: false,
   environment,

@@ -122,11 +122,11 @@ export default class Todos extends React.Component {
         <form onSubmit={this.submit.bind(this)}>
           <FormField>
             <ul>
-              {tasks.length ? (
+              {!!tasks.length && (
                 <li className="progress-bar background">
                   <div style={{ width: `${this.completedPercentage}%` }} />
                 </li>
-              ) : null}
+              )}
               {tasks.map(this.getTask.bind(this))}
               <li style={css.listItem}>
                 <TextField

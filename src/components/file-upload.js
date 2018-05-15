@@ -108,11 +108,11 @@ export class FileUpload extends React.Component {
           <li style={css.fileItem}>
             {this.state.files.map((file, i) => <File key={i} {...file} />)}
           </li>
-          {this.state.files.length ? (
+          {!!this.state.files.length && (
             <li style={css.buttonWrapper}>
               <Button onClick={this.startUpload()}>Upload</Button>
             </li>
-          ) : null}
+          )}
         </ul>
       </div>
     );

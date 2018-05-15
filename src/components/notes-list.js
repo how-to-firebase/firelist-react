@@ -2,10 +2,10 @@ import React from 'react';
 import { Card } from 'rmwc/Card';
 import Note from './note';
 
-export default function NotesList({ notes }) {
+export default function NotesList({ currentUser, notes }) {
   return (
     <Card className="notes-list">
-      {notes.sort(notesSort).map((note, i) => <Note note={note} key={i} />)}
+      {notes.sort(notesSort).map((note, i) => <Note currentUser={currentUser} note={note} key={i} />)}
     </Card>
   );
 }

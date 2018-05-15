@@ -1,4 +1,4 @@
-const { omitEmptyValues } = require('../utilities');
+const { omitEmptyValues, slugifyEmail } = require('../utilities');
 
 module.exports = function({ admin, environment }) {
   const { collections } = environment;
@@ -33,7 +33,10 @@ module.exports = function({ admin, environment }) {
 };
 
 function getUserObject(decodedToken, environment, messagingToken) {
+  const emailSlug = slugifyEmail(decodedToken.email);
+
   const customAttributes = omitEmptyValues({
+    emailSlug,
     environment,
     messagingToken,
   });

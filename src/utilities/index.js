@@ -5,3 +5,4 @@ export isDirty from './is-dirty';
 export mapDocs from './map-docs';
 export omitEmptyValues from './omit-empty-values';
 export parseTags from './parse-tags';
+export slugifyEmail from './slugify-email';

@@ -22,9 +22,13 @@ service cloud.firestore {
       return request.auth.uid == request.resource.data.owner
     }
 
+    function isCollaborator() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.emailSlug in resource.data.collaborators
+    }
+
     match /notes/{noteId} { // Applies to all notes
-      allow read: if isOwner()
-      allow write: if isOwner()
+      allow read: if isOwner() || isCollaborator()
+      allow write: if isOwner() || isCollaborator()
       allow create: if isOwnerRequest()
     }
   }

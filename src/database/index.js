@@ -1,4 +1,5 @@
 export addNote from './add-note';
+export getCollaborativeNotesObservable from './get-collaborative-notes-observable';
 export getNoteObservable from './get-note-observable';
 export getNotesObservable from './get-notes-observable';
 export getUserObservable from './get-user-observable';

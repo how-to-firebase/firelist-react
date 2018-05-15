@@ -11,7 +11,7 @@ const db = firebase.firestore();
 const notesCollection = db.collection('notes');
 
 export default async ({ title, description, currentUser }) => {
-  const { displayName, photoURL, uid: owner } = currentUser;
+  const { displayName, email, photoURL, uid: owner } = currentUser;
   const note = { description, displayName, photoURL, title, owner };
 
   /* 
@@ -25,6 +25,7 @@ export default async ({ title, description, currentUser }) => {
   const cleanNote = omitEmptyValues({
     description,
     displayName,
+    email,
     photoURL,
     title,
     owner,

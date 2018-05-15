@@ -50,7 +50,9 @@ const css = {
   },
 };
 
-export default ({ note }) => {
+export default ({ currentUser, note }) => {
+  const isOwner = currentUser.uid == note.owner;
+
   return (
     <div>
       <Link to={`/note/${note.__id}`} hover-target="true" focus-target="true">
@@ -77,6 +79,10 @@ export default ({ note }) => {
               <p style={css.detail} hidden={!note.location}>
                 <LocationCity style={css.detailIcon} />
                 <span>{note.location}</span>
+              </p>
+              <p style={css.detail} hidden={!!isOwner}>
+                <Person style={css.detailIcon} />
+                <span>{note.email}</span>
               </p>
             </div>
             <IconToggle onClick={toggleFavorite(note)}>

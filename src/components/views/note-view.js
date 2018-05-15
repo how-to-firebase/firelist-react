@@ -16,6 +16,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import { pick } from 'lodash';
 import moment from 'moment';
 import { getNoteObservable, removeNote, updateNote } from '../../database';
+import Collaborators from '../collaborators';
 import FileUpload from '../file-upload';
 import Loading from '../loading';
 import Images from '../images';
@@ -64,6 +65,7 @@ export class NoteView extends React.Component {
       location: '',
       tags: '',
       images: {},
+      collaborators: {},
       tasks: [],
       serverNote: null,
       loaded: false,
@@ -164,7 +166,10 @@ export class NoteView extends React.Component {
   }
 
   render() {
-    const { redirect, images } = this.state;
+    const { currentUser } = this.props;
+    const { redirect, images, owner } = this.state;
+
+    const isOwner = currentUser.uid == owner;
     const imagesCount = Object.keys(images).length;
     const shouldRedirect = !!redirect;
     const isLoading = !this.state.__id;
@@ -187,8 +192,8 @@ export class NoteView extends React.Component {
               onKeyPress={this.handleKeyPress()}
             >
               <FormField>
+                <label style={css.hidden}>edit {this.state.title}</label>
                 <div style={css.wrapper}>
-                  <label style={css.hidden}>edit {this.state.title}</label>
                   <ul>
                     <li>
                       <TextField
@@ -259,16 +264,18 @@ export class NoteView extends React.Component {
                       <Link to="/notes" style={css.button} tabIndex="-1">
                         <Button ripple={false}>back</Button>
                       </Link>
-                      <Button ripple={false} onClick={this.removeNote()}>
-                        delete
-                      </Button>
+                      {!!isOwner && (
+                        <Button ripple={false} onClick={this.removeNote()}>
+                          delete
+                        </Button>
+                      )}
                     </li>
                   </ul>
-                  {imagesCount ? (
+                  {!!imagesCount && (
                     <Elevation z="1" transition style={css.elevation}>
                       <Images images={this.state.images} />
                     </Elevation>
-                  ) : null}
+                  )}
                   <Elevation z="0" transition style={css.elevation}>
                     <FileUpload
                       disabled={!this.state.loaded}
@@ -280,6 +287,12 @@ export class NoteView extends React.Component {
               </FormField>
             </form>
             <Tasks noteId={this.state.__id} tasks={this.state.tasks} />
+            {!!isOwner && (
+              <Collaborators
+                noteId={this.state.__id}
+                collaborators={this.state.collaborators}
+              />
+            )}
           </div>
         );
     }
@@ -288,7 +301,7 @@ export class NoteView extends React.Component {
   }
 }
 
-export default connect('note', actions)(NoteView);
+export default connect('currentUser,note', actions)(NoteView);
 
 function getTagsChips(tags) {
   const chips = tags.length

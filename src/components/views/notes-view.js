@@ -14,16 +14,28 @@ const css = {
   },
 };
 
-export default connect('notes', actions)(({ notes }) => {
-  return (
-    <div>
-      <h1>Notes</h1>
-      <NotesList notes={notes} />
-      <Link to="/note-add" style={css.fab} tabIndex="-1">
-        <Fab ripple={false} tabIndex="1">
-          <NoteAdd />
-        </Fab>
-      </Link>
-    </div>
-  );
-});
+export default connect('currentUser,collaborativeNotes,notes', actions)(
+  ({ currentUser, collaborativeNotes, notes }) => {
+    return (
+      <div>
+        {!!notes.length && (
+          <div>
+            <h1>My Notes</h1>
+            <NotesList currentUser={currentUser} notes={notes} />
+          </div>
+        )}
+        {!!collaborativeNotes.length && (
+          <div>
+            <h1>Collaborative Notes</h1>
+            <NotesList currentUser={currentUser} notes={collaborativeNotes} />
+          </div>
+        )}
+        <Link to="/note-add" style={css.fab} tabIndex="-1">
+          <Fab ripple={false} tabIndex="1">
+            <NoteAdd />
+          </Fab>
+        </Link>
+      </div>
+    );
+  }
+);
