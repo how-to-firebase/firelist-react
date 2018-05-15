@@ -5,6 +5,7 @@ const functions = require('firebase-functions');
 admin.initializeApp();
 
 const {
+  NotesOnUpdate,
   ThumbnailsOnFinalize,
   ThumbnailsOnDelete,
   UploadsOnFinalize,
@@ -25,6 +26,24 @@ const context = { admin, environment };
     pass to Cloud Functions with the .onFinalize method.
 */
 
+// thumbnails-on-delete
+const notesOnUpdate = NotesOnUpdate(context);
+exports.notesOnUpdate = functions.firestore
+  .document('notes/{noteId}')
+  .onUpdate(notesOnUpdate);
+
+// thumbnails-on-delete
+const thumbnailsOnDelete = ThumbnailsOnDelete(context);
+exports.thumbnailsOnDelete = functions.storage
+  .object()
+  .onDelete(thumbnailsOnDelete);
+
+// thumbnails-on-finalize
+const thumbnailsOnFinalize = ThumbnailsOnFinalize(context);
+exports.thumbnailsOnFinalize = functions.storage
+  .object()
+  .onFinalize(thumbnailsOnFinalize);
+
 // uploads-on-finalize
 const uploadsOnFinalize = UploadsOnFinalize(context);
 exports.uploadsOnFinalize = functions.storage
@@ -34,18 +53,6 @@ exports.uploadsOnFinalize = functions.storage
 // uploads-on-delete
 const uploadsOnDelete = UploadsOnDelete(context);
 exports.uploadsOnDelete = functions.storage.object().onDelete(uploadsOnDelete);
-
-// thumbnails-on-finalize
-const thumbnailsOnFinalize = ThumbnailsOnFinalize(context);
-exports.thumbnailsOnFinalize = functions.storage
-  .object()
-  .onFinalize(thumbnailsOnFinalize);
-
-// thumbnails-on-delete
-const thumbnailsOnDelete = ThumbnailsOnDelete(context);
-exports.thumbnailsOnDelete = functions.storage
-  .object()
-  .onDelete(thumbnailsOnDelete);
 
 // user-tokens-on-create
 const userTokensOnCreate = UserTokensOnCreate(context);
