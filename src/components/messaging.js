@@ -25,6 +25,13 @@ export class Messaging extends Component {
       this.getToken()
     );
 
+    /* 
+      CHALLENGE Messaging
+      - See https://firebase.google.com/docs/cloud-messaging/js/receive
+      - Handle foreground messages
+      - Assign the `unlisten` function to this.unlistenOnMessage
+      - Hint: onMessage payload looks like { message, noteId, title }
+    */
     this.unlistenOnMessage = this.messaging.onMessage(payload => {
       const { message, noteId, title } = payload.data;
       console.log('onMessage payload', message, noteId, title);
