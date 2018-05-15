@@ -1,4 +1,4 @@
-// Challenge Firestore
+// CHALLENGE Firestore
 // See https://firebase.google.com/docs/firestore/security/get-started
 
 service cloud.firestore {
@@ -23,6 +23,9 @@ service cloud.firestore {
     }
 
     function isCollaborator() {
+      // Traverse the database to get the users's emailSlug
+      // Compare the emailSlug to the record's `collaborators` object
+      // See reference for rules.Map: https://firebase.google.com/docs/reference/rules/rules.Map
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.emailSlug in resource.data.collaborators
     }
 

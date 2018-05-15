@@ -77,7 +77,7 @@ module.exports = function({ admin, environment }) {
               'ImageMagick-6.9.9-Q16',
               'convert.exe'
             )
-          : 'convert';
+          : 'convert'; // Developing on Windows is causing some trouble :)
       promise = Promise.resolve()
         .then(() => fs.existsSync(tempFolder) || mkdir(tempFolder))
         .then(() => file.download({ destination: tempOriginalFilename }))

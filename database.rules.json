@@ -1,6 +1,25 @@
+// CHALLENGE Firestore
+// See https://firebase.google.com/docs/database/security/
+
+// Hint:  database.rules.json is just JSON
+//        The nodes under "rules" map to the data tree
+//        `$` indicates a wildcard name that matches
+//        A wildcard will match all otherwise-unspecified attributes in that part of the JSON
+// Example: /production/userWriteable/parties/123456
+//          $environment == "production"
+//          $objectType == "parties"
+//          $uid == "123456"
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "$environment": {
+      "userWriteable": {
+        "$objectType": {
+          "$uid": {
+            // Create a ".write" rule to verify that auth.uid equals $uid
+            ".write": "auth.uid == $uid"
+          }
+        }
+      }
+    }
   }
 }

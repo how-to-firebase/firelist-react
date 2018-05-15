@@ -14,6 +14,7 @@ const notesCollection = db.collection('notes');
 export default ({ email }) => {
   const emailSlug = slugifyEmail(email);
   const lowercaseEmail = email.toLowerCase();
+  const collaboratorPath = `collaborators.${emailSlug}`;
 
 
   return Observable.create(observer => {
@@ -21,8 +22,9 @@ export default ({ email }) => {
       CHALLENGE Firestore
       - See https://firebase.google.com/docs/firestore/query-data/listen
       - See http://reactivex.io/rxjs/manual/overview.html#observable
+      - See https://firebase.google.com/docs/firestore/solutions/arrays
       - Listen to notesCollection with onSnapshot
-      - Use a Firestore where query to only request notes where owner == uid
+      - Use a Firestore where query to only request notes where collaboratorPath == lowercaseEmail
       - Pass snapshot.docs into mapDocs() to map the docs to a more useful data shape
       - Call observer.next with the result of mapDocs
       - Hint: Make sure to return onSnapshot's unsubscribe function from this function.
@@ -30,7 +32,7 @@ export default ({ email }) => {
               observable's 'unsubscribe' function.
     */
     const unsubscribe = notesCollection
-      .where(`collaborators.${emailSlug}`, '==', lowercaseEmail)
+      .where(collaboratorPath, '==', lowercaseEmail)
       .onSnapshot(snapshot => {
         const docsData = mapDocs(snapshot.docs);
         // console.table(docsData);
