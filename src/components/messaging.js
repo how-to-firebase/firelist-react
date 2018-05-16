@@ -35,11 +35,13 @@ export class Messaging extends Component {
       - See https://firebase.google.com/docs/cloud-messaging/js/receive
       - Handle foreground messages
       - Assign the `unlisten` function to this.unlistenOnMessage
+      - Call this.showMessage({ message, noteId }) to pop a snackbar message
       - Hint: onMessage payload looks like { message, noteId, title }
+      - Hint: Share a project with your own email address to test the onMessage callback
     */
-    this.unlistenOnMessage = this.messaging.onMessage(payload => {
-      this.setState({ ...payload.data, show: true, title: 'Visit' });
-    });
+    this.unlistenOnMessage = this.messaging.onMessage(payload =>
+      this.showMessage(payload.data)
+    );
   }
 
   componentWillUnmount() {
@@ -50,6 +52,10 @@ export class Messaging extends Component {
   async getToken() {
     const token = await getToken(this.props);
     this.props.setMessagingToken(token);
+  }
+
+  showMessage({ message, noteId }) {
+    this.setState({ message, noteId, title: 'Visit', show: true });
   }
 
   render() {
