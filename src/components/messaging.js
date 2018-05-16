@@ -2,12 +2,17 @@
 import React, { Component } from 'react';
 import { connect } from 'unistore/react';
 import * as actions from '../store/actions';
+import { Redirect } from 'react-router-dom';
+
+import { Snackbar } from 'rmwc/Snackbar';
 
 import { getToken } from '../messaging';
 
 export class Messaging extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {};
 
     this.messaging = firebase.messaging();
   }
@@ -33,8 +38,7 @@ export class Messaging extends Component {
       - Hint: onMessage payload looks like { message, noteId, title }
     */
     this.unlistenOnMessage = this.messaging.onMessage(payload => {
-      const { message, noteId, title } = payload.data;
-      console.log('onMessage payload', message, noteId, title);
+      this.setState({ ...payload.data, show: true, title: 'Visit' });
     });
   }
 
@@ -49,7 +53,22 @@ export class Messaging extends Component {
   }
 
   render() {
-    return null;
+    const { redirect, message, noteId, show, title } = this.state;
+
+    return (
+      <div>
+        <Snackbar
+          show={this.state.show}
+          onHide={e => this.setState({ show: false })}
+          message={message}
+          actionText={title}
+          actionHandler={() =>
+            this.setState({ redirect: `/note/${noteId}`, show: false })
+          }
+        />
+        {!!redirect && <Redirect to={redirect} />}
+      </div>
+    );
   }
 }
 
