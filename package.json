@@ -34,7 +34,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --env.development",
-    "build": "webpack --mode production",
+    "build": "rm -rf dist && cp -R public dist && webpack --mode production",
+    "build:old": "rm -rf dist && webpack --mode production && sh bin/copy-public.sh",
     "test": "jest --watchAll",
     "test:functions": "cd functions && node --version && jest --watchAll",
     "deploy": "firebase deploy",
