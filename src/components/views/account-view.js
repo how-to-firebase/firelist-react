@@ -86,7 +86,11 @@ export class AccountView extends React.Component {
               <strong>Email:</strong> <span>{user.email}</span>
             </li>
             <li style={css.listItem}>
-              <strong>Last login:</strong> <span>{user.auth_time}</span>
+              <strong>Messaging token:</strong> <span>{user.messagingToken}</span>
+            </li>
+            <li style={css.listItem}>
+              <strong>Last login:</strong>{' '}
+              <span>{new Date(user.auth_time * 1000).toString()}</span>
             </li>
           </ul>
         </Elevation>
