@@ -83,3 +83,20 @@ You'll need to enable the [Identity and Access Management API](https://console.d
 While developing this application I ran into a nasty error where I couldn't upload files to Firebase Storage any longer. I solved the problem by upgrading my Firebase project to the Blaze plan and explicitly granting Storage Admin rights to `firebase-storage@system.gserviceaccount.com` as described on [this Stackoverflow answer](https://stackoverflow.com/questions/50292353/firebase-storage-security-rules-400-error-issue-permission-denied-could-not-ac).
 
 I also ran into trouble with `iam.serviceAccounts.signBlob` permissions. That was resolved by adding the "Cloud Functions Service Agent" role to my `firelist-react@appspot.gserviceaccount.com` as recommended on [this Stackoverflow answer](https://github.com/googleapis/nodejs-storage/issues/150).
+
+## HTTPS Required
+
+This project includes a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers/). And Service Workers require a valid HTTPS connection.
+
+The HTTPS requirement makes local development a real pain, because you can't ever generate a legitimate SSL certificate for localhost. We've found two ways to get around this.
+
+1. [Start Chrome with the --ignore-certificate-errors](https://www.technipages.com/google-chrome-bypass-your-connection-is-not-private-message) switch. 
+2. Open [Chrome flags](chrome://flags/) and enable #allow-insecure-localhost
+
+Option #1 enables serving the page from any test domain. Option #2 works for localhost only.
+
+Option #1 (--ignore-certificate-errors) is a huge pain, because it's a Chrome startup setting, which means that you have to manually open Chrome with that settings, which is a different process for both Windows and Mac.
+
+Option #2 (#allow-insecure-localhost) is preferred in every way to #1... unless you're developing from a domain other than localhost. If that's the case... then consider serving from a [custom SSL cert with Webpack Dev Server](https://webpack.js.org/configuration/dev-server/#devserver-https).
+
+We'll do our best to stick to localhost so that #allow-insecure-localhost will work seamlessly.

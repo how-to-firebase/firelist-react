@@ -46,9 +46,6 @@ const css = {
   button: {
     marginLeft: '1rem',
   },
-  hidden: {
-    display: 'none',
-  },
 };
 
 export class NoteView extends React.Component {
@@ -192,7 +189,9 @@ export class NoteView extends React.Component {
               onKeyPress={this.handleKeyPress()}
             >
               <FormField>
-                <label style={css.hidden}>edit {this.state.title}</label>
+                <label style={{ display: 'none' }}>
+                  edit {this.state.title}
+                </label>
                 <div style={css.wrapper}>
                   <ul>
                     <li>

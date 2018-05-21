@@ -111,6 +111,7 @@ export default class Collaborators extends React.Component {
         <h2>Collaborators</h2>
         <form onSubmit={this.submit.bind(this)}>
           <FormField>
+            <label style={{ display: 'none' }}>edit collaborators</label>
             <ul>
               {flatCollaborators.map(this.getCollaborator.bind(this))}
               <li style={css.listItem}>

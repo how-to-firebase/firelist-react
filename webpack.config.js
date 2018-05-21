@@ -6,6 +6,10 @@ module.exports = env => {
   return {
     entry: ['babel-polyfill', './src/index.js'],
 
+    output: {
+      publicPath: '/',
+    },
+
     module: {
       rules: [
         {
@@ -22,6 +26,7 @@ module.exports = env => {
         {
           test: /\.js$/,
           use: ['source-map-loader'],
+          exclude: /node_modules/,
           enforce: 'pre',
         },
         {
@@ -47,14 +52,9 @@ module.exports = env => {
 
     devServer: {
       historyApiFallback: true,
-      host: '0.0.0.0',
       allowedHosts: ['dev.chrisesplin.com', 'localhost'],
       contentBase: path.resolve('public'),
-      https: {
-        key: fs.readFileSync('/home/chris/.certs/chrisesplin.com/privkey.pem'),
-        cert: fs.readFileSync('/home/chris/.certs/chrisesplin.com/cert.pem'),
-        ca: fs.readFileSync('/home/chris/.certs/chrisesplin.com/fullchain.pem'),
-      },
+      https: true,
       before(app) {
         app.get('/environments/environment.js', (req, res) => {
           const devEnvironment = fs.readFileSync(
