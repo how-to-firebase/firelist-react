@@ -12,6 +12,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
     "firebase-tools": "^3.18.4",
     "html-loader": "^0.5.5",
@@ -35,7 +36,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --env.development",
     "build": "rm -rf dist && cp -R public dist && webpack --mode production",
-    "build:old": "rm -rf dist && webpack --mode production && sh bin/copy-public.sh",
+    "build:windows": "xcopy public dist /E /Y & webpack --mode production",
     "test": "jest --watchAll",
     "test:functions": "cd functions && node --version && jest --watchAll",
     "firebase:login": "firebase login",
