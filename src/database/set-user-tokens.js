@@ -19,15 +19,4 @@ export default async ({ environment, messagingToken, currentUser }) => {
       Keep your data "sparse"... don't try to save empty data.
   */
 
-  const userTokensRef = db
-    .ref(environment.firebaseRoot)
-    .child('userWriteable/userTokens')
-    .child(currentUser.uid);
-
-  const userTokens = omitEmptyValues({
-    idToken,
-    messagingToken,
-  });
-
-  return userTokensRef.set(userTokens);
 };
