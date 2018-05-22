@@ -1,5 +1,5 @@
 /* globals firebase */
-const DELETE = firebase.firestore.FieldValue.delete();
+const DELETE = firebase.firestore && firebase.firestore.FieldValue.delete();
 
 /* 
   CHALLENGE Firestore
