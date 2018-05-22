@@ -7,8 +7,7 @@ import { deleteEmptyValues } from '../utilities';
   - Create a reference to notesCollection
   - Hint: It's just a collection under the name 'notes'
 */
-const db = firebase.firestore();
-const notesCollection = db.collection('notes');
+
 
 export default async (noteId, updates) => {
   const cleanUpdates = deleteEmptyValues(updates);
@@ -21,5 +20,5 @@ export default async (noteId, updates) => {
     - Don't forget to use cleanUpdate :)
   */
 
-  return notesCollection.doc(noteId).update(cleanUpdates);
+  
 };

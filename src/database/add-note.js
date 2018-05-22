@@ -7,8 +7,7 @@ import { omitEmptyValues } from '../utilities';
   - Create a reference to notesCollection
   - Hint: It's just a collection under the name 'notes'
 */
-const db = firebase.firestore();
-const notesCollection = db.collection('notes');
+
 
 export default async ({ title, description, currentUser }) => {
   const { displayName, email, photoURL, uid: owner } = currentUser;
@@ -22,14 +21,5 @@ export default async ({ title, description, currentUser }) => {
     - Hint: While Firestore supports null values, it does not support undefined values
     -       Also, it's generally preferred to store nothing at all instead of a null
   */
-  const cleanNote = omitEmptyValues({
-    description,
-    displayName,
-    email,
-    photoURL,
-    title,
-    owner,
-  });
-
-  return notesCollection.add(cleanNote);
+  
 };

@@ -16,7 +16,7 @@ export default (store, { setNotes }) => {
                 The next `if` block handles unsubscripitions, and it needs the subscription
                 object to unsubscribe.
       */
-      subscription = getNotesObservable(currentUser).subscribe(notes => setNotes(notes));
+      
     } else if (!currentUser && subscription) {
       // Handle user log out
 

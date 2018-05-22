@@ -8,8 +8,7 @@ import { formatDoc } from '../utilities';
   - Create a reference to notesCollection
   - Hint: It's just a collection under the name 'notes'
 */
-const db = firebase.firestore();
-const notesCollection = db.collection('notes');
+
 
 export default noteId => {
   /* 
@@ -29,11 +28,6 @@ export default noteId => {
               RxJs takes whatever function you return from Observable.create and uses it as the
               observable's 'unsubscribe' function.
     */
-    const unsubscribe = docRef.onSnapshot(doc => {
-      const docData = formatDoc(doc);
-
-      observer.next(docData);
-    });
-    return unsubscribe;
+    
   });
 };

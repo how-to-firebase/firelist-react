@@ -6,8 +6,7 @@
   - Create a reference to notesCollection
   - Hint: It's just a collection under the name 'notes'
 */
-const db = firebase.firestore();
-const notesCollection = db.collection('notes');
+
 
 export default async (noteId) => {
   
@@ -18,5 +17,5 @@ export default async (noteId) => {
     - Remove the doc with the .delete() function
 
   */
-  return notesCollection.doc(noteId).delete();
+  
 };

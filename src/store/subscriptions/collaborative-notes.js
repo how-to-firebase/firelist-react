@@ -16,9 +16,7 @@ export default (store, { setCollaborativeNotes }) => {
                 The next `if` block handles unsubscripitions, and it needs the subscription
                 object to unsubscribe.
       */
-      subscription = getCollaborativeNotesObservable(currentUser).subscribe(
-        notes => setCollaborativeNotes(notes)
-      );
+      
     } else if (!currentUser && subscription) {
       // Handle user log out
 

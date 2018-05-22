@@ -8,15 +8,13 @@ import { formatDoc } from '../utilities';
   - Create a reference to usersCollection
   - Hint: It's just a collection under the name 'users'
 */
-const db = firebase.firestore();
-const usersCollection = db.collection('users');
 
 export default uid => {
   /* 
     CHALLENGE Firestore
     - Create a reference to the doc specified by uid
   */
-  const docRef = usersCollection.doc(uid);
+  
   return Observable.create(observer => {
     /* 
       CHALLENGE Firestore
@@ -30,11 +28,6 @@ export default uid => {
               observable's 'unsubscribe' function.
     */
     
-    const unsubscribe = docRef.onSnapshot(doc => {
-      const docData = formatDoc(doc);
-
-      observer.next(docData);
-    });
-    return unsubscribe;
+    
   });
 };

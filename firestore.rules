@@ -6,27 +6,23 @@ service cloud.firestore {
     // Write one read,write rule for /users/{uid}
     // read, write: request.auth.uid must equal uid
 
-    match /users/{uid} {
-      allow read: if request.auth.uid == uid
-    }
-
     // See https://firebase.google.com/docs/firestore/security/rules-conditions#custom_functions
     // These rules rely on custom functions
     function isOwner() {
       // The auth token's uid must equal the record's owner field
-      return request.auth.uid == resource.data.owner
+
     }
 
     function isOwnerRequest() {
       // The auth token's uid must equal the attempted write's owner field
-      return request.auth.uid == request.resource.data.owner
+      
     }
 
     function isCollaborator() {
       // Traverse the database to get the users's emailSlug
       // Compare the emailSlug to the record's `collaborators` object
       // See reference for rules.Map: https://firebase.google.com/docs/reference/rules/rules.Map
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.emailSlug in resource.data.collaborators
+      
     }
 
     match /notes/{noteId} { // Applies to all notes

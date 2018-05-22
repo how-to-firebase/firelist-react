@@ -8,8 +8,7 @@ import { mapDocs } from '../utilities';
   - Create a reference to notesCollection
   - Hint: It's just a collection under the name 'notes'
 */
-const db = firebase.firestore();
-const notesCollection = db.collection('notes');
+
 
 export default ({ uid }) => {
   return Observable.create(observer => {
@@ -25,13 +24,6 @@ export default ({ uid }) => {
               RxJs takes whatever function you return from Observable.create and uses it as the
               observable's 'unsubscribe' function.
     */
-    const unsubscribe = notesCollection
-      .where('owner', '==', uid)
-      .onSnapshot(snapshot => {
-        const docsData = mapDocs(snapshot.docs);
-        // console.table(docsData);
-        observer.next(docsData);
-      });
-    return unsubscribe;
+    
   });
 };
