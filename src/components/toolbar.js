@@ -42,11 +42,14 @@ export default connect('currentUser,drawerOpen', actions)(
               <Bolt style={css.icon} />
             </ToolbarTitle>
           </ToolbarSection>
-          <ToolbarSection alignEnd>
+          <ToolbarSection alignEnd style={{ alignItems: 'center' }}>
+            {currentUser && <div>{currentUser.email}</div>}
             {currentUser && (
-              <ToolbarIcon onClick={signOut}>
-                <Exit />
-              </ToolbarIcon>
+              <div>
+                <ToolbarIcon onClick={signOut}>
+                  <Exit />
+                </ToolbarIcon>
+              </div>
             )}
           </ToolbarSection>
         </ToolbarRow>
