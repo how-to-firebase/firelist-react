@@ -11,7 +11,6 @@ export default (file, path) => {
     - Create a reference to path plus file.name
     - Hint: Use a single string like `${path}/${file.name}` or use storage's .child() function
   */
-  const ref = storage.ref(path).child(file.name);
 
   return Observable.create(observer => {
     /* 
@@ -25,17 +24,7 @@ export default (file, path) => {
       - Call observer.error(error) with the error from the error callback
       - Call observer.complete() in the complete callback
     */
-    const uploadTask = ref.put(file);
-
-    uploadTask.on(
-      'state_changed',
-      snapshot => {
-        const progress = getSnapshotProgress(snapshot);
-        observer.next(progress);
-      },
-      error => observer.error(error),
-      () => observer.complete()
-    );
+    
   });
 };
 

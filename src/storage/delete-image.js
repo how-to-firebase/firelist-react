@@ -8,5 +8,5 @@ export default name => {
     - Create a reference to the image using `name`
     - Delete the image
   */
-  return storage.ref(name).delete();
+  
 };
