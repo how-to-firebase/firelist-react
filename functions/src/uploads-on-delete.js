@@ -23,22 +23,6 @@ module.exports = function UploadsOnDelete({ admin, environment }) {
         - Return the noteRef in the transactions's .then() callback for testing purposes
       */
 
-      const noteRef = db.collection(collections.notes).doc(noteId);
-
-      promise = db
-        .runTransaction(t =>
-          t
-            .get(noteRef)
-            .then(doc => doc.data())
-            .then(note => {
-              if (note.images) {
-                delete note.images[md5Hash];
-              }
-
-              return t.update(noteRef, { images: note.images });
-            })
-        )
-        .then(() => noteRef);
     }
 
     return promise;

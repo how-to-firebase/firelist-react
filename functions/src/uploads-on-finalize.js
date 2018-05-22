@@ -35,25 +35,6 @@ module.exports = function UploadsOnFinalize({ admin, environment }) {
                 The beauty of an upsert is that it never fails :)
       */
 
-      const noteRef = db.collection(collections.notes).doc(noteId);
-
-      promise = noteRef
-        .get()
-        .then(doc => doc.data())
-        .then(note => {
-          let { images } = note || {};
-
-          if (!images) {
-            images = {};
-          }
-
-          images[md5Hash] = { downloadURL, filename, name, size };
-
-          // Setting the { merge: true } option turns the set into an upsert
-          return noteRef.set({ images }, { merge: true });
-        })
-        .then(() => noteRef);
-      // Returning imageRef for testing purposes only
     }
 
     // Always return a promise from a Cloud Function

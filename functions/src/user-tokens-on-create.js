@@ -20,15 +20,6 @@ module.exports = function({ admin, environment }) {
       - Remove the snapshot with snapshot.ref.remove()
     */
 
-    return admin
-      .auth()
-      .verifyIdToken(idToken)
-      .then(decodedToken => {
-        const user = getUserObject(decodedToken, environment, messagingToken);
-
-        return userRef.set(user, { merge: true });
-      })
-      .then(() => snapshot.ref.remove());
   };
 };
 
