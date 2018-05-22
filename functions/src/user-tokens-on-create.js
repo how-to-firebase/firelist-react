@@ -12,7 +12,7 @@ module.exports = function({ admin, environment }) {
       .doc(uid);
 
     /* 
-      CHALLENGE Cloud Functions
+      CHALLENGE Functions
       - See https://firebase.google.com/docs/auth/admin/verify-id-tokens
       - Use admin.auth().verifyIdToken(idToken) to retrieve the decodedToken
       - Use getUserObject(decodedToken, environment, messagingToken) to get the user object
