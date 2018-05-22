@@ -19,7 +19,7 @@ module.exports = function UploadsOnFinalize({ admin, environment }) {
       const updated = Date().toString();
 
       /* 
-        CHALLENGE Cloud Functions
+        CHALLENGE Functions
         - Save a noteRef and an imageRef
         - noteRef   pattern: {collections.notes}/{noteId}
         - imageRef  pattern: {collections.gallery}/{noteId}/{galleryCollectionName}/{md5Hash}
