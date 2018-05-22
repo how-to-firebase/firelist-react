@@ -30,11 +30,6 @@ export default () => {
   - Pass that provider into signInWithPopup or signInWithRedirect
 */
 
-
-// See 
 function signIn() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-
-  // Use the provider to sign in with a popup or a redirect
-  firebase.auth().signInWithPopup(provider);
+  
 }

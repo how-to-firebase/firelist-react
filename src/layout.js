@@ -33,11 +33,7 @@ export class InnerApp extends React.Component {
     */
    
     const { environment, setCurrentUser } = this.props;
-    this.firebase.auth().onAuthStateChanged(currentUser => {
-      setCurrentUser(currentUser);
-
-      currentUser && setUserTokens({ environment, currentUser });
-    });
+    
   }
 
   render() {
