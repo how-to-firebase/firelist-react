@@ -20,15 +20,19 @@ module.exports = function UploadsOnFinalize({ admin, environment }) {
 
       /* 
         CHALLENGE Functions
-        - Save a noteRef and an imageRef
+        - Save a noteRef
         - noteRef   pattern: {collections.notes}/{noteId}
-        - imageRef  pattern: {collections.gallery}/{noteId}/{galleryCollectionName}/{md5Hash}
-        - Get the noteRef record and pull off the note.owner attribute so we can add it to the
-        - Stage a batch.set() job to write the noteUpdate to noteRef
-        - Stage a batch.set() job to write the galleryUpdate to galleryRef
-        - Use { merge: true} as options for both batchWrite functions to ensure that no existing
-          data gets deleted
-        - Assign the result of batch.commit() to the promise variable
+        - Get the noteRef record and pull off the `images` attribute
+        - Don't forget to assign the result of the promise chain to the `promise` variable
+        - Add the image to the `images` object with the md5Hash as the key
+        - The image data shape is { downloadURL, filename, name, size }
+        - Update the noteRef with the new images object using noteRef.set with { merge: true }
+        - Return noteRef in the .then callback for testing purposes
+        - Note: Using noteRef.set with the { merge: true } option is what's called an 'upsert'
+                Upserts are often preferred, because they update or insert new data.
+                The .set operation without { merge: true } will overwrite the entire object.
+                The .update operation fails if the object already exists.
+                The beauty of an upsert is that it never fails :)
       */
 
       const noteRef = db.collection(collections.notes).doc(noteId);

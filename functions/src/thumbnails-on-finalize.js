@@ -57,11 +57,19 @@ module.exports = function({ admin, environment }) {
 
       /* 
         CHALLENGE Functions
-        - Save a noteRef and an imageRef
-        - noteRef   pattern: {collections.notes}/{noteId}
-        - imageRef  pattern: {collections.gallery}/{noteId}/{galleryCollectionName}/{md5Hash}
-        - Delete the imageRef and don't forget to assign the resulting promise to the `promise`
-          variable
+        - Read the following code if you're interested in how to transcode images with Functions
+        - The 'convert' command from ImageMagick is installed on all Cloud Functions instances
+        - Using ImageMagick with Windows can be tricky, hence the convertCmd variable :)
+        - Otherwise, the pattern is simple enough, even if the code is ugly...  
+          1. Make sure that there's a tempFolder
+          2. Download the original image file to the tempFolder
+          3. Spawn a new process to run the ImageMagick thumbnail conversion
+             `convert temp/folder/original.jpg -thumbnail '250x250' temp/folder/thumbnail.jpg`
+          4. Upload the thumbnail to the Cloud Storage bucket in a new 'thumbnails' folder
+          5. Delete the images from tempFolder
+          6. Get a signed url from Cloud Storage for the thumbnail
+          7. Use a Firestore transaction to add the thumbnail url to the note object
+        - I take it back... that was a lot. Some problems are just messy at their core :(
       */
 
       const noteRef = db.collection(collections.notes).doc(noteId);
