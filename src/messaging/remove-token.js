@@ -9,9 +9,4 @@ export default async ({ currentUser, environment }) => {
     - messagingToken should be the boolean `false`
   */
 
-  return setUserTokens({
-    currentUser,
-    environment,
-    messagingToken: false,
-  });
 };

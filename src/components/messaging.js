@@ -26,10 +26,7 @@ export class Messaging extends Component {
       - Assign the `unlisten` function to this.unlistenOnTokenRefresh
       - Call getToken
     */
-    this.unlistenOnTokenRefresh = this.messaging.onTokenRefresh(() =>
-      this.getToken()
-    );
-
+    
     /* 
       CHALLENGE Messaging
       - See https://firebase.google.com/docs/cloud-messaging/js/receive
@@ -39,9 +36,7 @@ export class Messaging extends Component {
       - Hint: onMessage payload looks like { message, noteId, title }
       - Hint: Share a project with your own email address to test the onMessage callback
     */
-    this.unlistenOnMessage = this.messaging.onMessage(payload =>
-      this.showMessage(payload.data)
-    );
+    
   }
 
   componentWillUnmount() {

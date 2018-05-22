@@ -25,13 +25,6 @@ var messaging = firebase.messaging();
 
 const iconUrl =
   'https://firebasestorage.googleapis.com/v0/b/firelist-react.appspot.com/o/assets%2Fbolt-144px.png?alt=media&token=a747522e-22a4-496d-bcc9-429a007a86fb';
-messaging.setBackgroundMessageHandler(payload =>
-  self.registration.showNotification('Firelist', {
-    body: payload.data.message,
-    data: payload.data,
-    icon: iconUrl,
-  })
-);
 
 /* 
   CHALLENGE Messaging
@@ -41,16 +34,6 @@ messaging.setBackgroundMessageHandler(payload =>
   - Open noteUrl
   - Hint: Look for the noteId on event.notification.data
 */
-self.addEventListener('notificationclick', function(e) {
-  const { noteId } = e.notification.data;
-  const noteUrl = `/note/${noteId}`;
-
-  e.notification.close();
-
-  if (noteId) {
-    e.waitUntil(clients.openWindow(noteUrl));
-  }
-});
 
 if (!environment.isDevelopment) {
   /* 
