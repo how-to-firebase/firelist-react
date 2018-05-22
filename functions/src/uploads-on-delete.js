@@ -13,11 +13,14 @@ module.exports = function UploadsOnDelete({ admin, environment }) {
 
       /* 
         CHALLENGE Cloud Functions
-        - Save a noteRef and an imageRef
+        - Save a noteRef
         - noteRef   pattern: {collections.notes}/{noteId}
-        - imageRef  pattern: {collections.gallery}/{noteId}/{galleryCollectionName}/{md5Hash}
-        - Delete the imageRef and don't forget to assign the resulting promise to the `promise`
-          variable
+        - Use db.runTransaction(t => {...}) to start a transaction
+        - Don't forget to assign the result of db.runTransaction to the `promise` variable
+        - Use the transaction object to get the noteRef
+        - Pull the note data into a variable and delete note.images[md5Hash]
+        - Use the transaction to update the noteRef with the new images object
+        - Return the noteRef in the transactions's .then() callback for testing purposes
       */
 
       const noteRef = db.collection(collections.notes).doc(noteId);
