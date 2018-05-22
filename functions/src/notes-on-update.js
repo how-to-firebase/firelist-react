@@ -6,7 +6,10 @@ module.exports = function({ admin, environment }) {
 
   /* 
     CHALLENGE Functions
-    - Try to understand what's going on here :)
+    - Read the following code if you'd like to learn how to handle a .onUpdate event
+    - The first event argument is `change` with `change.after` and `change.before`
+    - Most of this code is application-specific logic... so it's not critical to understand
+      Just know that you can easily compare Firestore changes and respond accordingly
   */
 
   return (change, context) => {
@@ -85,7 +88,11 @@ function sendMessages(users, data, admin) {
 
   /* 
     CHALLENGE Messaging
-    - Try to understand what's going on here :)
+    - Note how easy it is to send a messaging using admin.messaging() from line 86
+    - Lines 100-103 show that you merely call messaging.send({ token, data })
+    - The only trick is that you need a valid token
+    - You can structure the data object however you like... just make sure to keep it under 4kb!
+      https://firebase.google.com/docs/cloud-messaging/concept-options
   */
 
   return Promise.all(
