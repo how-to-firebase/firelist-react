@@ -15,7 +15,7 @@ const {
 const context = { admin, environment };
 
 /* 
-  CHALLENGE Cloud Functions
+  CHALLENGE Functions
   - Read and understand the following code carefully.
     We're using a dependency injection pattern, because our functions must be 100% testable.
     Our dependencies are the `admin` and `environment` variables which are combined into `context`. 

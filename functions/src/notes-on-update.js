@@ -5,7 +5,7 @@ module.exports = function({ admin, environment }) {
   const usersCollection = admin.firestore().collection(collections.users);
 
   /* 
-    CHALLENGE Cloud Functions
+    CHALLENGE Functions
     - Try to understand what's going on here :)
   */
 
