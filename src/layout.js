@@ -30,10 +30,11 @@ export class InnerApp extends React.Component {
       - https://firebase.google.com/docs/auth/web/manage-users
       - Register an onAuthStateChanged callback
       - Call setCurrentUser with the updated currentUser
+      - If a currentUser exists, call setUserTokens({ environment, currentUser})
     */
-   
+
     const { environment, setCurrentUser } = this.props;
-    
+
   }
 
   render() {
