@@ -1,4 +1,4 @@
-// CHALLENGE Firestore
+// CHALLENGE Realtime DB
 // See https://firebase.google.com/docs/database/security/
 
 // Hint:  database.rules.json is just JSON
