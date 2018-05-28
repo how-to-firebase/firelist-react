@@ -1,5 +1,15 @@
-// CHALLENGE Firestore
+// CHALLENGE Firestore 22
 // See https://firebase.google.com/docs/firestore/security/get-started
+// Application:   We've started out with 'test mode' security rules which allow read/write access  //                to everyone at all times. This is ridiculous. We have to lock down our database
+//                as soon as possible. That's where these security rules come in. 
+//                First, we'll write a rule to lock down the 'users' collection
+//                Second, we'll write three functions that will lock down the 'notes' collection
+//                You'll need to write the entire rule block for the 'users' collection, but we've
+//                left the rule block for '/notes/{noteId}' in place... because writing the three
+//                functions is hard enough. Just make sure to read lines 38-42 for a basic 
+//                understanding of how a more complex rules block looks.
+
+
 
 service cloud.firestore {
   match /databases/{database}/documents {
