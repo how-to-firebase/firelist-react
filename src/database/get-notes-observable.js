@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { mapDocs } from '../utilities';
 
 /* 
-  CHALLENGE Firestore
+  CHALLENGE Firestore 04
   - See https://firebase.google.com/docs/firestore/quickstart
   - Create a reference to notesCollection
   - Hint: It's just a collection under the name 'notes'
@@ -13,7 +13,7 @@ import { mapDocs } from '../utilities';
 export default ({ uid }) => {
   return Observable.create(observer => {
     /* 
-      CHALLENGE Firestore
+      CHALLENGE Firestore 05
       - See https://firebase.google.com/docs/firestore/query-data/listen
       - See http://reactivex.io/rxjs/manual/overview.html#observable
       - Listen to notesCollection with onSnapshot
@@ -23,6 +23,9 @@ export default ({ uid }) => {
       - Hint: Make sure to return onSnapshot's unsubscribe function from this function.
               RxJs takes whatever function you return from Observable.create and uses it as the
               observable's 'unsubscribe' function.
+      - Application:  `getNotesObservable` is used in src/store/subscriptions/notes.js:29
+                    Once you've finished `getNotesObservable`, the notes data will flow into
+                    notes.js and you'll be able to see your notes in the app. 
     */
     
   });
