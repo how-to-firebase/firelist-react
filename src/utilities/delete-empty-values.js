@@ -2,7 +2,10 @@
 const DELETE = firebase.firestore && firebase.firestore.FieldValue.delete();
 
 /* 
-  CHALLENGE Firestore
+  CHALLENGE Firestore 20
+  - The following function is already completed and this challenge exists for review purposes only
+  - Feel free to delete the function and rewrite it yourself...
+    ...but it's some tricky JavaScript and not a lot of Firestore-specific code
   - See https://firebase.google.com/docs/firestore/manage-data/delete-data
   - Write a function to delete empty values in an updates object
   - Use the isEmpty function to identify the empty values
