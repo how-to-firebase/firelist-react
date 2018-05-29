@@ -13,8 +13,8 @@
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Write one read,write rule for /users/{uid}
-    // read, write: request.auth.uid must equal uid
+    // Write one read rule for /users/{uid}
+    // read: request.auth.uid must equal uid
 
     match /users/{uid} {
       allow read: if request.auth.uid == uid
@@ -41,7 +41,8 @@ service cloud.firestore {
 
     match /notes/{noteId} { // Applies to all notes
       allow read: if isOwner() || isCollaborator()
-      allow write: if isOwner() || isCollaborator()
+      allow update: if isOwner() || isCollaborator()
+      allow delete: if isOwner()
       allow create: if isOwnerRequest()
     }
   }
