@@ -5,7 +5,7 @@ module.exports = function({ admin, environment }) {
   const usersCollection = admin.firestore().collection(collections.users);
 
   /* 
-    CHALLENGE Functions
+    CHALLENGE Functions 05
     - Read the following code if you'd like to learn how to handle a .onUpdate event
     - The first event argument is `change` with `change.after` and `change.before`
     - Most of this code is application-specific logic... so it's not critical to understand
