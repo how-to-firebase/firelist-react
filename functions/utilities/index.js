@@ -6,4 +6,5 @@ module.exports = {
   recursiveDelete: require('./recursive-delete'),
   setDifference: require('./set-difference'),
   slugifyEmail: require('./slugify-email'),
+  uploadSampleImage: require('./upload-sample-image'),
 };
