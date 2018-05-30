@@ -1,19 +1,27 @@
-const { parseStorageEvent } = require('../utilities');
+const { parseStorageEvent, uploadSampleImage } = require('../utilities');
 const admin = require('../utilities/dev-admin');
 const environment = require('../environments/environment.dev.json');
 const ThumbnailsOnFinalize = require('./thumbnails-on-finalize');
 const sampleEvent = require('../sample-data/upload-on-finalize.json');
 const db = admin.firestore();
 
+const path = require('path');
+const keyFilename = path.resolve(`${environment.googleCloud.keyFilename}`);
+
 describe('ThumbnailsOnFinalize', () => {
   const fakeMd5Hash = 'thumbnails-on-finalize';
   const { noteId } = parseStorageEvent(sampleEvent);
   const noteRef = db.collection(environment.collections.notes).doc(noteId);
 
+  beforeAll(done => {
+    uploadSampleImage().then(() => done(), done.fail);
+  });
+
   let thumbnailsOnFinalize, event;
   beforeEach(() => {
     event = {
       ...sampleEvent,
+      bucket: environment.firebase.storageBucket,
       metadata: {},
       md5Hash: fakeMd5Hash,
       name:

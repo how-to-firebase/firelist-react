@@ -37,8 +37,6 @@
     "start": "webpack-dev-server --mode development --env.development",
     "build": "rm -rf dist && cp -R public dist && webpack --mode production",
     "build:windows": "xcopy public dist /E /Y & webpack --mode production",
-    "test": "jest --watchAll",
-    "test:functions": "cd functions && node --version && jest --watchAll",
     "firebase:login": "firebase login",
     "deploy": "npm run build && firebase deploy",
     "deploy:windows": "npm run build:windows && firebase deploy",

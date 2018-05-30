@@ -12,7 +12,7 @@ module.exports = function UploadsOnDelete({ admin, environment }) {
       const { noteId, md5Hash } = parseStorageEvent(event);
 
       /* 
-        CHALLENGE Functions
+        CHALLENGE Functions 03
         - Save a noteRef
         - noteRef   pattern: {collections.notes}/{noteId}
         - Use db.runTransaction(t => {...}) to start a transaction

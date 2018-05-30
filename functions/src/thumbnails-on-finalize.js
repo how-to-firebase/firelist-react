@@ -56,7 +56,7 @@ module.exports = function({ admin, environment }) {
       };
 
       /* 
-        CHALLENGE Functions
+        CHALLENGE Functions 04
         - Read the following code if you're interested in how to transcode images with Functions
         - The 'convert' command from ImageMagick is installed on all Cloud Functions instances
         - Using ImageMagick with Windows can be tricky, hence the convertCmd variable :)

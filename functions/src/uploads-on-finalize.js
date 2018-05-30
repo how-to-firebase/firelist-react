@@ -19,7 +19,7 @@ module.exports = function UploadsOnFinalize({ admin, environment }) {
       const updated = Date().toString();
 
       /* 
-        CHALLENGE Functions
+        CHALLENGE Functions 02
         - Save a noteRef
         - noteRef   pattern: {collections.notes}/{noteId}
         - Get the noteRef record and pull off the `images` attribute
