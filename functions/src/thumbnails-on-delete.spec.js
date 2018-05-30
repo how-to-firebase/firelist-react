@@ -4,15 +4,18 @@ const admin = require('../utilities/dev-admin');
 const environment = require('../environments/environment.dev.json');
 const ThumbnailsOnDelete = require('./thumbnails-on-delete');
 const sampleEvent = require('../sample-data/upload-on-finalize.json');
+const {
+  firebase: { storageBucket },
+} = environment;
 const db = admin.firestore();
 const GCS = require('@google-cloud/storage');
 const gcs = GCS({ keyFilename: environment.googleCloud.keyFilename });
-const bucket = gcs.bucket(sampleEvent.bucket);
+const bucket = gcs.bucket(storageBucket);
 
 describe('ThumbnailsOnDelete', () => {
   const { root, noteId } = parseStorageEvent(sampleEvent);
   const prefix = 'test/thumbnails/123456';
-  const localFilename = path.resolve('./test-assets/thumbnail.jpg');
+  const localFilename = path.resolve(__dirname, '../test-assets/thumbnail.jpg');
   const thumbnailName = 'test/thumbnails/123456/200x200/thumbnail.jpg';
   const uploadName = 'test/uploads/123456/thumbnail.jpg';
 
@@ -20,6 +23,7 @@ describe('ThumbnailsOnDelete', () => {
   beforeEach(() => {
     event = {
       ...sampleEvent,
+      bucket: storageBucket,
       name: uploadName,
     };
 
