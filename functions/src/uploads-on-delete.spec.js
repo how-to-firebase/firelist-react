@@ -4,14 +4,14 @@ const environment = require('../environments/environment.dev.json');
 const UploadsOnDelete = require('./uploads-on-delete');
 const sampleEvent = require('../sample-data/upload-on-delete.json');
 const db = admin.firestore();
-
-sampleEvent.md5Hash = 'on-delete-test'
+const name = `${
+  environment.paths.uploads
+}/5ccM4M3aaS3IolEnAKWB/chrisesplin-headshot-6-600x600.jpg`;
+const customEvent = { ...sampleEvent, name, md5Hash: 'on-delete-test' };
 
 describe('UploadsOnDelete', () => {
-  const { md5Hash, noteId } = parseStorageEvent(sampleEvent);
-  const noteRef = db
-    .collection(environment.collections.notes)
-    .doc(noteId);
+  const { md5Hash, noteId } = parseStorageEvent(customEvent);
+  const noteRef = db.collection(environment.collections.notes).doc(noteId);
   const imageA = { exists: true };
   const imageB = { exists: true };
 
@@ -24,7 +24,7 @@ describe('UploadsOnDelete', () => {
 
   let uploadsOnDelete, event;
   beforeEach(() => {
-    event = { ...sampleEvent };
+    event = { ...customEvent };
     uploadsOnDelete = UploadsOnDelete({ admin, environment });
   });
 
