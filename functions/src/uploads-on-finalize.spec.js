@@ -4,6 +4,8 @@ const environment = require('../environments/environment.dev.json');
 const UploadsOnFinalize = require('./uploads-on-finalize');
 const sampleEvent = require('../sample-data/upload-on-finalize.json');
 const db = admin.firestore();
+const name = `${environment.paths.uploads}/5ccM4M3aaS3IolEnAKWB/chrisesplin-headshot-6-600x600.jpg`
+const customEvent = { ...sampleEvent, name };
 
 describe('UploadsOnFinalize', () => {
   const {
@@ -13,7 +15,7 @@ describe('UploadsOnFinalize', () => {
     name,
     noteId,
     size,
-  } = parseStorageEvent(sampleEvent);
+  } = parseStorageEvent(customEvent);
   const noteRef = db.collection(environment.collections.notes).doc(noteId);
 
   beforeAll(done => {
@@ -22,7 +24,7 @@ describe('UploadsOnFinalize', () => {
 
   let uploadsOnFinalize, event;
   beforeEach(() => {
-    event = { ...sampleEvent };
+    event = { ...customEvent };
     uploadsOnFinalize = UploadsOnFinalize({ admin, environment });
   });
 
