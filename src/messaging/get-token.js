@@ -7,7 +7,7 @@ export default async ({ currentUser, environment }) => {
   let messagingToken;
   try {
     /* 
-      CHALLENGE Messaging
+      CHALLENGE Messaging 01
       - See https://firebase.google.com/docs/cloud-messaging/js/client
       - Request permission to send a message inside a try/catch
       - Use `await` to wait for the messaging.requestPermission() result

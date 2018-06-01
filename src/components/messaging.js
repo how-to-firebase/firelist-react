@@ -21,14 +21,15 @@ export class Messaging extends Component {
     await registerServiceWorker(this.messaging);
 
     /* 
-      CHALLENGE Messaging
-      - Listen to for refreshed messaging tokens and call getToken
+      CHALLENGE Messaging 03
+      - See https://firebase.google.com/docs/cloud-messaging/js/client
+      - Listen to for refreshed messaging tokens with this.messaging.onTokenRefresh(callback)
       - Assign the `unlisten` function to this.unlistenOnTokenRefresh
-      - Call getToken
+      - Call this.getToken() in the callback to fire off an automatic token request
     */
     
     /* 
-      CHALLENGE Messaging
+      CHALLENGE Messaging 04
       - See https://firebase.google.com/docs/cloud-messaging/js/receive
       - Handle foreground messages
       - Assign the `unlisten` function to this.unlistenOnMessage

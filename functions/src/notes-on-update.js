@@ -87,7 +87,7 @@ function sendMessages(users, data, admin) {
   const usersWithTokens = users.filter(user => !!user.messagingToken);
 
   /* 
-    CHALLENGE Messaging
+    CHALLENGE Messaging 07
     - Note how easy it is to send a messaging using admin.messaging() from line 86
     - Lines 100-103 show that you merely call messaging.send({ token, data })
     - The only trick is that you need a valid token
