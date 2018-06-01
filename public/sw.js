@@ -10,14 +10,13 @@ firebase.initializeApp(environment.firebase);
 var messaging = firebase.messaging();
 
 /* 
-  CHALLENGE Messaging
+  CHALLENGE Messaging 05
   
   https://github.com/firebase/quickstart-js/blob/65071f29716138fe020e62bed50cfba174e83170/messaging/firebase-messaging-sw.js#L15-L29
 
-  - Set the background message handler
-  - Pull data off of the message handler payload
+- Set the background message handler with messaging.setBackgroundMessageHandler(callback)
   - Construct a notification options object with the following data shape: 
-    { body: 'the message body', icon: iconUrl }
+    { body: payload.data.message, data: payload.data, icon: iconUrl }
   - Use self.registration.showNotification(title, options) to pop a background message
     `title` is whatever text you want at the top of your notification
     `options` is the options object you constructed in the last step
@@ -34,12 +33,14 @@ messaging.setBackgroundMessageHandler(payload =>
 );
 
 /* 
-  CHALLENGE Messaging
+  CHALLENGE Messaging 06
   - See https://developers.google.com/web/fundamentals/codelabs/push-notifications/
-  - Handle notificationclick events
-  - Close the notification
-  - Open noteUrl
+  - Handle notificationclick events with self.addEventListener('notificationclick', callback)
+  - Write a callback handler to extract the noteId and create a noteUrl
   - Hint: Look for the noteId on event.notification.data
+  - Hint: noteUrl should be `/note/${noteId}`
+  - Close the notification with e.notification.close()
+  - If the noteId exists, use e.waitUntil(clients.openWindow(noteUrl)) to open the noteUrl
 */
 self.addEventListener('notificationclick', function(e) {
   const { noteId } = e.notification.data;

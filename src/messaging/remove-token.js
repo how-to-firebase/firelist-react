@@ -4,7 +4,7 @@ const messaging = firebase.messaging();
 
 export default async ({ currentUser, environment }) => {
   /* 
-    CHALLENGE Messaging
+    CHALLENGE Messaging 02
     - Call setUserTokens({ currentUser, environment, messagingToken });
     - messagingToken should be the boolean `false`
   */
