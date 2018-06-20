@@ -16,7 +16,7 @@
         "$objectType": {
           "$uid": {
             // Create a ".write" rule to verify that auth.uid equals $uid
-            ".write": "auth.uid == $uid"
+            
           }
         }
       }
